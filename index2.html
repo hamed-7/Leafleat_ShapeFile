@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Leaflet-shapefile</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="googlebot" content="noindex, nofollow">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!--script type="text/javascript"  src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
+	<script type="text/javascript" src="jquery.min.js"></script>
+
+	<!--link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css">
+  <script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
+  <script type="text/javascript" src="https://cdn.rawgit.com/calvinmetcalf/shapefile-js/gh-pages/dist/shp.js"></script>
+  <script type="text/javascript" src="https://cdn.rawgit.com/calvinmetcalf/leaflet.shapefile/gh-pages/leaflet.shpfile.js"></script-->
+	<link rel="stylesheet" href="button.css">
+	<link rel="stylesheet" type="text/css" href="leaflet.css">
+	<script type="text/javascript" src="leaflet.js"></script>
+	<script type="text/javascript" src="shp.js"></script>
+	<script type="text/javascript" src="leaflet.shpfile.js"></script>
+
+	<style id="compiled-css" type="text/css">
+		#map {
+			height: 500px;
+		}
+
+		input {
+			margin-top: 10px;
+		}
+	</style>
+
+
+	<script id="insert"></script>
+</head>
+
+<body>
+	<div id="map"></div>
+	<label for="input">Select a zipped shapefile:</label> <input type="file" id="file"> <br>
+	<input type="submit" id="submit"> <span id="warning"></span>
+	<!-- click button -->
+	<label class="f">
+		hide
+		<input class="f__input" type="checkbox"   checked="false" id="tuni" value="shapeTun">
+		<span class="f__switch">
+			<span class="f__handle">
+				<span class="f__1"></span>
+				<!-- <span class="f__2"></span>
+				<span class="f__3"></span>
+				<span class="f__4"></span>
+				<span class="f__5"></span>
+				<span class="f__6"></span>
+				<span class="f__7"></span>
+				<span class="f__8"></span>
+				<span class="f__9"></span>
+				<span class="f__10"></span>
+				<span class="f__11"></span>
+				<span class="f__12"></span>
+				<span class="f__13"></span>
+				<span class="f__14"></span>
+				<span class="f__15"></span>
+				<span class="f__16"></span>
+				<span class="f__17"></span>
+				<span class="f__18"></span>
+				<span class="f__19"></span> -->
+				<span class="f__20"></span>
+			</span>
+		</span>
+		<abbr title="Visulize">Visulize</abbr>
+	</label>
+
+	<div class="overlay">
+		<label>
+			<input type="checkbox" value="polygon" checked> Polygon layer
+		</label><br>
+		<label>
+			<input type="checkbox" value="circle" checked> Circle layer
+		</label><br>
+		<label>
+			<input type="checkbox" value="marker" checked> Marker
+		</label><br>
+		<label>
+			<input type="checkbox" value="shapeTun" checked> tunis
+		</label>
+	</div>
+
+
+
+
+	<script type="text/javascript">
+
+
+		//<![CDATA[
+		map = L.map('map', {
+			center: [36.8, 16.9],
+			zoom: 6
+		});
+
+		L.tileLayer('http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg', {
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+			//maxZoom: 17,
+			minZoom: 5,
+		}).addTo(map);
+
+
+		//button version
+		// const tuni_btn = document.querySelector('#tuni');
+		//     tuni_btn.onclick = () => {
+		//         Alert("visulize");};
+		//check box version not dynamic need reload
+		// var tunis_check = document.getElementById("tuni").checked;
+		// const tuni_btn = document.getElementById("tuni_btn")
+		// tuni_btn.onclick=()=>{
+		// 	if (tunis_check)
+		// 	{
+		// 		alert("bb");
+		// 	}
+		// 	else{
+		// 		alert("error");
+		// 	}
+		// };
+		var shapeTun = shp('ShapeFile/TunisiaWorldcountries_esri_2014.zip').then(function (data) {
+					//geo.addData(data);
+					//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+					//new L.Shapefile(data);
+					layer = new L.shapefile(data);
+					layer.addTo(map);
+					//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+					layer.setStyle({ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 });// Coloring Shape file 
+					console.log(layer);
+					
+					}, function (a) { console.log(a) });
+
+				
+
+		// var checkbox = document.querySelector("#tuni");
+		
+		// 		checkbox.addEventListener('change', function () {
+		// 			var layer;
+		// 			if (this.checked){
+					
+		
+		// 		}
+		// 			else
+		// 			{ 
+		// 				alert('disabled');
+		// 				console.log(layer);
+		// 				//map.removeLayer(layer);
+		// 				layer.remove();
+		// 			}
+		// 		});
+		/**/
+
+
+
+
+
+		// version 3
+
+		// 	shp('ShapeFile/TunisiaWorldcountries_esri_2014.zip').then(function (data) {
+		// 	//geo.addData(data);
+		// 	//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+		// 	//new L.Shapefile(data);
+		// 	var layer = new L.shapefile(data);
+		// 	if (this.checked){
+		// 	layer.addTo(map);
+		// 	//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+		// 	layer.setStyle({ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 });// Coloring Shape file 
+		// 	console.log(layer);
+		// 					}
+		// 	else
+		// 	{ 
+		// 		map.removeLayer(layer);
+		// 		alert('disabled');
+		// 	}
+		// 	}, function (a) { console.log(a) });
+
+		// });
+
+
+
+
+
+
+		// shp('ShapeFile/TunisiaWorldcountries_esri_2014.zip').then(function (data) {
+		// 	//geo.addData(data);
+		// 	//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+		// 	//new L.Shapefile(data);
+		// 	var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+		// 	layer.setStyle({ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 });// Coloring Shape file 
+		// 	console.log(layer);
+		// }, function (a) { console.log(a) });
+
+		var polygon = L.polygon([
+			[36.509, 15.08],
+			[36.503, 14.06],
+			[35.81, 14.047]
+		]).addTo(map);
+
+		var circle = L.circle([36.508, 16.11], 50000, {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5
+		}).addTo(map);
+
+
+		$("input").click(function (event) {
+			layerClicked = window[event.target.value];
+
+			if (map.hasLayer(layerClicked)) {
+				map.removeLayer(layerClicked);
+			}
+			else {
+				map.addLayer(layerClicked);
+			};
+		});
+
+
+
+
+
+
+		shp('ShapeFile/eezTun.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			console.log(layer);
+
+		}, function (a) { console.log(a) });
+
+		///
+		var LeafIcon = L.Icon.extend({
+			options: {
+				//shadowUrl: 'Marker/marker-icon-3x.png',
+				iconSize: [22],
+				//shadowSize: [50, 64],
+				//iconAnchor: [22, 94],
+				//shadowAnchor: [4, 62],
+				//popupAnchor: [-3, -76]
+			}
+		});
+
+		var greenIcon = new LeafIcon({ iconUrl: 'Marker/marker-icon-3x.png' });
+
+		L.marker([36.80786, 10.30725], { icon: greenIcon }).addTo(map)
+			.bindPopup("<b>Port La Goulette</b><br />I am in Tunisia").openPopup();
+		//.bindPopup("<b>Hello world!</b><br />I am a popup in EGYPT <br /> <img src='Marker/leaf-green.png' />.").openPopup();
+		////
+
+		var LeafIcon = L.Icon.extend({
+			options: {
+				//shadowUrl: 'Marker/marker-icon-3x.png',
+				iconSize: [22],
+				//shadowSize: [50, 64],
+				//iconAnchor: [22, 94],
+				//shadowAnchor: [4, 62],
+				//popupAnchor: [-3, -76]
+			}
+		});
+
+		var greenIcon = new LeafIcon({ iconUrl: 'Marker/marker-icon-3x.png' });
+
+		L.marker([34.7310, 10.7714], { icon: greenIcon }).addTo(map)
+			.bindPopup("<b>Port de Sfax</b><br />I am in Tunisia").openPopup();
+		//.bindPopup("<b>Hello world!</b><br />I am a popup in EGYPT <br /> <img src='Marker/leaf-green.png' />.").openPopup();
+		////
+		document.getElementById("submit").onclick = function (e) {
+			var files = document.getElementById('file').files;
+			if (files.length == 0) {
+				return; //do nothing if no file given yet
+			}
+
+			//var path = require('path');
+			//var filename = path.basename('/ShapeFile/TunisiaWorldcountries_esri_2014.zip');
+			//console.log(filename);
+
+			var file = files[0];
+			//console.info(files[0]);
+			//var file = "TunisiaWorldcountries_esri_2014.zip";
+			//var file = new File(["foo"], "TunisiaWorldcountries_esri_2014.zip", {
+			//	type: "text/plain",
+			//});
+			console.info(file);
+			console.info(file.name);
+			if (file.name.slice(-3) != 'zip') { //Demo only tested for .zip. All others, return.
+				document.getElementById('warning').innerHTML = 'Select .zip file';
+				console.warning("notZip");
+
+				return;
+			} else {
+				document.getElementById('warning').innerHTML = ''; //clear warning message.
+				handleZipFile(file);
+				console.info("Handel");
+
+			}
+		};
+
+		//More info: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+		function handleZipFile(file) {
+			var reader = new FileReader();
+			reader.onload = function () {
+				if (reader.readyState != 2 || reader.error) {
+					return;
+				} else {
+					convertToLayer(reader.result);
+				}
+			}
+			reader.readAsArrayBuffer(file);
+		}
+
+		function convertToLayer(buffer) {
+			shp(buffer).then(function (geojson) {	//More info: https://github.com/calvinmetcalf/shapefile-js
+				var layer = L.shapefile(geojson).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+				console.log(layer);
+			});
+		}
+	</script>
+
+	<script>
+		// tell the embed parent frame the height of the content
+		if (window.parent && window.parent.parent) {
+			window.parent.parent.postMessage(["resultsFrame", {
+				height: document.body.getBoundingClientRect().height,
+				slug: "z6t14vjr"
+			}], "*")
+		}
+
+		// always overwrite window.name, in case users try to set it manually
+		window.name = "result"
+	</script>
+</body>
+
+</html>
