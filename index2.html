@@ -69,19 +69,10 @@
 		<label>
 			<input type="checkbox" id="layer"  checked> tunis
 		</label>
-		<label>
-			<input type="checkbox" value="polygon" checked> Polygon layer
-		</label><br>
-		<label>
-			<input type="checkbox" value="circle" checked> Circle layer
-		</label><br>
 		<!-- <label>
 			<input type="checkbox" value="marker" checked> Marker
 		</label><br> -->
 	</div>
-
-
-
 
 	<script type="text/javascript">
 
@@ -96,15 +87,16 @@
 			//maxZoom: 17,
 			minZoom: 5,
         }).addTo(map);
+
         
-		shapeConvert = (url,id) =>{
+		shapeConvert = (url,id,st) =>{
 			
 			shp(url).then(function (data) {
 			//geo.addData(data);
 			//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
 			//new L.Shapefile(data);
 			var layer = L.shapefile(data)//More info: https://github.com/calvinmetcalf/leaflet.shapefile
-			layer.setStyle({ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 });// Coloring Shape file 
+			layer.setStyle(st);// Coloring Shape file 
 			$('input:'+id).click(function (event) {
 					if (map.hasLayer(layer) ) {
 						map.removeLayer(layer);
@@ -116,33 +108,25 @@
 			});
 		}, function (a) { console.log(a) });
       };
-      
-	  shapeConvert('ShapeFile/TunisiaWorldcountries_esri_2014.zip',"#tuni");
-	  shapeConvert('ShapeFile/eezTun.zip',"#layer");
+      let ste={ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 };
+      shapeConvert('ShapeFile/TunisiaWorldcountries_esri_2014.zip',"#tuni",ste);
+      let ste2={ color: '#383838', "opacity":5, fillColor: '#373737', fillOpacity: 0.2 };
+	  shapeConvert('ShapeFile/eezTun.zip',"#layer",ste2);
 
-		var polygon = L.polygon([
-			[36.509, 15.08],
-			[36.503, 14.06],
-			[35.81, 14.047]
-		]).addTo(map);
+		// var polygon = L.polygon([
+		// 	[36.509, 15.08],
+		// 	[36.503, 14.06],
+		// 	[35.81, 14.047]
+		// ]).addTo(map);
 
-		var circle = L.circle([36.508, 16.11], 50000, {
-			color: 'red',
-			fillColor: '#f03',
-			fillOpacity: 0.5
-		}).addTo(map);
+		// var circle = L.circle([36.508, 16.11], 50000, {
+		// 	color: 'red',
+		// 	fillColor: '#f03',
+		// 	fillOpacity: 0.5
+		// }).addTo(map);
 
+	
 		
-
-		
-
-
-		shp('ShapeFile/eezTun.zip').then(function (data) {
-			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
-			console.log(layer);
-
-		}, function (a) { console.log(a) });
-
 		///
 		var LeafIcon = L.Icon.extend({
 			options: {
