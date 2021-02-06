@@ -73,24 +73,23 @@
 
 	<div class="overlay">
 		<label>
+			<input type="checkbox" id="layer"  checked> tunis
+		</label>
+		<label>
 			<input type="checkbox" value="polygon" checked> Polygon layer
 		</label><br>
 		<label>
 			<input type="checkbox" value="circle" checked> Circle layer
 		</label><br>
-		<label>
+		<!-- <label>
 			<input type="checkbox" value="marker" checked> Marker
-		</label><br>
-		<label>
-			<input type="checkbox" value="shapeTun" checked> tunis
-		</label>
+		</label><br> -->
 	</div>
 
 
 
 
 	<script type="text/javascript">
-
 
 		//<![CDATA[
 		map = L.map('map', {
@@ -121,6 +120,8 @@
 		// 		alert("error");
 		// 	}
 		// };
+
+		/*
 		var shapeTun = shp('ShapeFile/TunisiaWorldcountries_esri_2014.zip').then(function (data) {
 					//geo.addData(data);
 					//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
@@ -132,7 +133,7 @@
 					console.log(layer);
 					
 					}, function (a) { console.log(a) });
-
+		*/			
 				
 
 		// var checkbox = document.querySelector("#tuni");
@@ -179,19 +180,41 @@
 
 		// });
 
+		
+		var c=  shp('ShapeFile/TunisiaWorldcountries_esri_2014.zip');
+		c.then(function (data) {
+			//geo.addData(data);
+			//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			//new L.Shapefile(data);
+			var layer = L.shapefile(data)//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 });// Coloring Shape file 
+			console.log($("input").val());
+			
+			$("input:#tuni").click(function (event) {
+					if (map.hasLayer(layer) ) {
+						map.removeLayer(layer);
+					}
+				else {
+			//if(!(map.hasLayer(layerClicked))) 
+				layer.addTo(map);
+				}
+			
+			});
+		
+		}, function (a) { console.log(a) });
+				
+			
+			
 
+		// var	layer_tun = new L.shapefile(shp('ShapeFile/TunisiaWorldcountries_esri_2014.zip')).addTo(map);
+		// 			//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+		// 			layer_tun.setStyle({ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 });// Coloring Shape file 
+		// 			console.log(layer_tun);
+		// var shp_tun=new L.Shapefile([addFileData=('ShapeFile/TunisiaWorldcountries_esri_2014.zip')
+		// ]);
+		// shp_tun.addTo(map);
 
-
-
-
-		// shp('ShapeFile/TunisiaWorldcountries_esri_2014.zip').then(function (data) {
-		// 	//geo.addData(data);
-		// 	//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
-		// 	//new L.Shapefile(data);
-		// 	var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
-		// 	layer.setStyle({ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 });// Coloring Shape file 
-		// 	console.log(layer);
-		// }, function (a) { console.log(a) });
+		// console.log(shp_tun);
 
 		var polygon = L.polygon([
 			[36.509, 15.08],
@@ -205,21 +228,9 @@
 			fillOpacity: 0.5
 		}).addTo(map);
 
+		
 
-		$("input").click(function (event) {
-			layerClicked = window[event.target.value];
-
-			if (map.hasLayer(layerClicked)) {
-				map.removeLayer(layerClicked);
-			}
-			else {
-				map.addLayer(layerClicked);
-			};
-		});
-
-
-
-
+		
 
 
 		shp('ShapeFile/eezTun.zip').then(function (data) {
