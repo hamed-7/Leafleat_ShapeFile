@@ -37,7 +37,7 @@
 	<!-- click button -->
 	<label class="f">
 		hide
-		<input class="f__input" type="checkbox"   checked="false" id="tuni" value="shapeTun">
+		<input class="f__input" type="checkbox" checked="false" id="tuni" value="shapeTun">
 		<span class="f__switch">
 			<span class="f__handle">
 				<span class="f__1"></span>
@@ -67,8 +67,14 @@
 
 	<div class="overlay">
 		<label>
-			<input type="checkbox" id="layer"  checked> tunis
+			<input type="checkbox" id="layer" checked> tunis
 		</label>
+		<label>
+			<input type="checkbox" id="polygon"  checked> Polygon layer
+		</label><br>
+		<label>
+			<input type="checkbox"  id="circle"  checked> Circle layer
+		</label><br>
 		<!-- <label>
 			<input type="checkbox" value="marker" checked> Marker
 		</label><br> -->
@@ -86,47 +92,63 @@
 			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 			//maxZoom: 17,
 			minZoom: 5,
-        }).addTo(map);
+		}).addTo(map);
 
-        
-		shapeConvert = (url,id,st) =>{
-			
+		input_id = (idi) => {
+				$("input:" + idi).click(function (event) {
+					layerClicked = window[event.target.id];
+
+					if (map.hasLayer(layerClicked)) {
+						map.removeLayer(layerClicked);
+					}
+					else {
+						map.addLayer(layerClicked);
+					};
+				});
+			}
+
+		shapeConvert = (url, id, st) => {
+
 			shp(url).then(function (data) {
-			//geo.addData(data);
-			//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
-			//new L.Shapefile(data);
-			var layer = L.shapefile(data)//More info: https://github.com/calvinmetcalf/leaflet.shapefile
-			layer.setStyle(st);// Coloring Shape file 
-			$('input:'+id).click(function (event) {
-					if (map.hasLayer(layer) ) {
+				//geo.addData(data);
+				//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+				//new L.Shapefile(data);
+				var layer = L.shapefile(data)//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+				layer.setStyle(st);// Coloring Shape file 
+				$('input:' + id).click(function (event) {
+					if (map.hasLayer(layer)) {
 						map.removeLayer(layer);
 					}
-				else {
-			//if(!(map.hasLayer(layerClicked))) 
-				layer.addTo(map);
-				}
-			});
-		}, function (a) { console.log(a) });
-      };
-      let ste={ color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 };
-      shapeConvert('ShapeFile/TunisiaWorldcountries_esri_2014.zip',"#tuni",ste);
-      let ste2={ color: '#383838', "opacity":5, fillColor: '#373737', fillOpacity: 0.2 };
-	  shapeConvert('ShapeFile/eezTun.zip',"#layer",ste2);
+					else {
+						//if(!(map.hasLayer(layerClicked))) 
+						layer.addTo(map);
+					}
+				});
 
-		// var polygon = L.polygon([
-		// 	[36.509, 15.08],
-		// 	[36.503, 14.06],
-		// 	[35.81, 14.047]
-		// ]).addTo(map);
+			}, function (a) { console.log(a) });
+		};
+		let ste = { color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 };
+		shapeConvert('ShapeFile/TunisiaWorldcountries_esri_2014.zip', "#tuni", ste);
+		let ste2 = { color: '#383838', "opacity": 5, fillColor: '#373737', fillOpacity: 0.2 };
+		shapeConvert('ShapeFile/eezTun.zip', "#layer", ste2);
 
-		// var circle = L.circle([36.508, 16.11], 50000, {
-		// 	color: 'red',
-		// 	fillColor: '#f03',
-		// 	fillOpacity: 0.5
-		// }).addTo(map);
+		var polygon = L.polygon([
+			[36.509, 15.08],
+			[36.503, 14.06],
+			[35.81, 14.047]
+		]).addTo(map);
 
+		var circle = L.circle([36.508, 16.11], 50000, {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5
+		}).addTo(map);
 	
-		
+		input_id("#polygon");
+		input_id("#circle");
+
+
+
 		///
 		var LeafIcon = L.Icon.extend({
 			options: {
