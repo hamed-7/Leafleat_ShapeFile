@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Leaflet-shapefile</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="googlebot" content="noindex, nofollow">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script type="text/javascript" src="jquery.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="leaflet.css">
+	<link rel="stylesheet" type="text/css" href="L.Control.MousePosition.css">
+	<link rel="stylesheet" type="text/css" href="leaflet.css">
+	<link rel="stylesheet" type="text/css" href="styleAll.css">
+	<script type="text/javascript" src="leaflet.js"></script>
+	<script type="text/javascript" src="L.Control.MousePosition.js"></script>
+	<script type="text/javascript" src="leaflet.boatmarker.js"></script>
+	<script type="text/javascript" src="shp.js"></script>
+	<script type="text/javascript" src="leaflet.shpfile.js"></script>
+	<script type="text/javascript" src="data/NMEAFormatWeb.json"></script>
+
+	<!--Boat-->
+	<script src="https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js"></script>
+	<script src="leaflet.boatmarker.min.js"></script>
+	<!--Rotate-->
+	<script src="leaflet.rotatedMarker.js"></script>
+	<!--ZoomBar-->
+	<link rel="stylesheet" type="text/css" href="L.Control.ZoomBar.css" />
+	<script type="text/javascript" src="L.Control.ZoomBar.js"></script>
+
+
+	<style id="compiled-css" type="text/css">
+		#map {
+			height: 600px;
+			z-index: 1;
+		}
+
+		input {
+			margin-top: 10px;
+			margin-right: 3px;
+		}
+
+		.submit {
+			/* border: 1px solid #978d8d; */
+			/* background-color: #7fbcf5; */
+			/* color: rgb(90, 90, 90); */
+			/* margin: 1px 5px; */
+			/* display: inline-block; */
+			font-family: 'Open Sans', sans-serif;
+			font-size: 14px;
+			/* font-weight: bold; */
+			width: 90px;
+		}
+
+		.file {
+			/*on supp le message 'aucun fichier ..'*/
+			/* border: 1px solid #800000; */
+			/* background-color: #CCCCFF; */
+			/* font-weight: bold; */
+			width: 90px;
+
+			/* background-color: #7fbcf5; */
+			color: rgb(95, 88, 88);
+			/* margin: 1px 5px; */
+			/* display: inline-block; */
+			font-family: 'Open Sans', sans-serif;
+			font-size: 14px;
+			/* font-weight: bold; */
+		}
+
+		/*input[type="file"] {
+			
+			display: none;
+		}/**/
+
+		.layerMenu {
+			/* width: 288px; */
+			
+			position: absolute;
+			top: 18px;
+			left: 18px;
+			background-color: #073856;
+			border: #e7092a;
+			/*border-inline-width: 2px;*/
+			opacity: .7;
+			padding: 5px;
+			border-radius: 4px;
+			z-index: 2;
+		}
+
+		.layerMenu label {
+			color: white;
+			margin: 1px 5px;
+			display: inline-block;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 14px;
+		}
+
+		/**/
+
+		.shapeMenu {
+			width: 256px;
+			position: absolute;
+			top: 388px;
+			left: 18px;
+			background-color: #073856;
+			border: #e7092a;
+			/*border-inline-width: 2px;*/
+			opacity: .7;
+			padding: 5px;
+			border-radius: 4px;
+			z-index: 2;
+		}
+
+		.shapeMenu label {
+			color: white;
+			margin: 1px 5px;
+			display: inline-block;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 14px;
+		}
+
+
+		.switch {
+			position: relative;
+			display: inline-block;
+			vertical-align: top;
+			width: 56px;
+			height: 20px;
+			padding: 3px;
+			background-color: white;
+			border-radius: 18px;
+			box-shadow: inset 0 -1px white, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+			cursor: pointer;
+			background-image: -webkit-linear-gradient(top, #eeeeee, white 25px);
+			background-image: -moz-linear-gradient(top, #eeeeee, white 25px);
+			background-image: -o-linear-gradient(top, #eeeeee, white 25px);
+			background-image: linear-gradient(to bottom, #eeeeee, white 25px);
+		}
+
+		.switch-input {
+			position: absolute;
+			top: 0;
+			left: 0;
+			opacity: 0;
+		}
+
+		.switch-label {
+			position: relative;
+			display: block;
+			height: inherit;
+			font-size: 12px;
+			text-transform: uppercase;
+			background: #eceeef;
+			border-radius: inherit;
+			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
+			-webkit-transition: 0.15s ease-out;
+			-moz-transition: 0.15s ease-out;
+			-o-transition: 0.15s ease-out;
+			transition: 0.15s ease-out;
+			-webkit-transition-property: opacity background;
+			-moz-transition-property: opacity background;
+			-o-transition-property: opacity background;
+			transition-property: opacity background;
+		}
+
+		.switch-label:before,
+		.switch-label:after {
+			position: absolute;
+			top: 50%;
+			margin-top: -.5em;
+			line-height: 1;
+			-webkit-transition: inherit;
+			-moz-transition: inherit;
+			-o-transition: inherit;
+			transition: inherit;
+		}
+
+		.switch-label:before {
+			content: attr(data-off);
+			right: 11px;
+			color: rgb(226, 36, 36);
+			text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+		}
+
+		.switch-label:after {
+			content: attr(data-on);
+			left: 11px;
+			color: white;
+			text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+			opacity: 0;
+		}
+
+		.switch-input:checked~.switch-label {
+			background: #47a8d8;
+			box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+		}
+
+		.switch-input:checked~.switch-label:before {
+			opacity: 0;
+		}
+
+		.switch-input:checked~.switch-label:after {
+			opacity: 1;
+		}
+
+		.switch-handle {
+			position: absolute;
+			top: 4px;
+			left: 4px;
+			width: 18px;
+			height: 18px;
+			background: white;
+			border-radius: 10px;
+			box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+			background-image: -webkit-linear-gradient(top, white 40%, #f0f0f0);
+			background-image: -moz-linear-gradient(top, white 40%, #f0f0f0);
+			background-image: -o-linear-gradient(top, white 40%, #f0f0f0);
+			background-image: linear-gradient(to bottom, white 40%, #f0f0f0);
+			-webkit-transition: left 0.15s ease-out;
+			-moz-transition: left 0.15s ease-out;
+			-o-transition: left 0.15s ease-out;
+			transition: left 0.15s ease-out;
+		}
+
+		.switch-handle:before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin: -6px 0 0 -6px;
+			width: 12px;
+			height: 12px;
+			background: #f9f9f9;
+			border-radius: 6px;
+			box-shadow: inset 0 1px rgba(0, 0, 0, 0.02);
+			background-image: -webkit-linear-gradient(top, #eeeeee, white);
+			background-image: -moz-linear-gradient(top, #eeeeee, white);
+			background-image: -o-linear-gradient(top, #eeeeee, white);
+			background-image: linear-gradient(to bottom, #eeeeee, white);
+		}
+
+		.switch-input:checked~.switch-handle {
+			left: 40px;
+			box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
+		}
+
+		.switch-green>.switch-input:checked~.switch-label {
+			background: #4fb845;
+		}
+
+		.toggleWrapper {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			overflow: hidden: -webkit-transform: translate3d(-50%, -50%, 0);
+			transform: translate3d(-50%, -50%, 0);
+		}
+
+		.toggleWrapper input {
+			position: absolute;
+			left: -99em;
+		}
+
+		.toggle {
+			cursor: pointer;
+			display: inline-block;
+			position: relative;
+			width: 120px;
+			height: 50px;
+			background: #d21626;
+			border-radius: 5px;
+			-webkit-transition: all 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+			transition: all 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+		}
+
+		.toggle:before,
+		.toggle:after {
+			position: absolute;
+			line-height: 50px;
+			font-size: 14px;
+			z-index: 2;
+			-webkit-transition: all 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+			transition: all 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+		}
+
+		.toggle:before {
+			content: "OFF";
+			left: 20px;
+			color: #D21626;
+		}
+
+		.toggle:after {
+			content: "ON";
+			right: 20px;
+			color: #fff;
+		}
+
+		.toggle__handler {
+			display: inline-block;
+			position: relative;
+			z-index: 1;
+			background: #fff;
+			width: 25px;
+			height: 44px;
+			border-radius: 3px;
+			top: 3px;
+			left: 3px;
+			-webkit-transition: all 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+			transition: all 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+			-webkit-transform: translateX(0px);
+			transform: translateX(0px);
+		}
+
+		input:checked+.toggle {
+			background: #66b317;
+		}
+
+		input:checked+.toggle:before {
+			color: #fff;
+		}
+
+		input:checked+.toggle:after {
+			color: #66b317;
+		}
+
+		input:checked+.toggle .toggle__handler {
+			width: 54px;
+			-webkit-transform: translateX(60px);
+			transform: translateX(60px);
+			border-color: #fff;
+		}
+/* 
+		button {
+ 	 
+ 	
+} */
+	</style>
+	
+	<script src="leaflet-sidebar.js"></script>
+	<link rel="stylesheet" href="leaflet-sidebar.css" />
+
+
+	<script id="insert"></script>
+</head>
+
+<body>
+	<div id="map"></div>
+
+	<div id="sidebarLeft" class="sidebar sidebar-left collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            
+            <ul role="tablist">
+                <li><a href="#layers" role="tab"><i class="fa fa-plus"></i></a></li> <!--plus eye-open copy-->
+                <li><a href="#profile" role="tab" class="fa fa-folder-open"></i></a></li>
+               <li ><a ><button role="tab" id="TargetMaker" aria-checked="true"><i class="fa fa-map-marker"></i></button></a></li> 
+            </ul>
+			<!-- <input class="sidebar-pane" type="checkbox" id="TargetMaker" checked/> -->
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane " id="layers">
+                <h1 class="sidebar-header">
+                    Control layers        
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+				<div class=" container">
+
+					<form action="#">
+						<p><input type="checkbox" id="EEZTun" /><label for="EEZTun"><span class="ui"></span>EEZ Tunisie</label></p>
+						<p><input type="checkbox" id="EEZ12Tun" /><label for="EEZ12Tun"><span class="ui"></span>EEZ 12nm Tunisie</label></p>
+						<p><input type="checkbox" id="EEZ24Tun" /><label for="EEZ24Tun"><span class="ui"></span>EEZ 24nm Tunisie</label></p>
+						<p><input type="checkbox" id="allEEZ24" /><label for="allEEZ24"><span class="ui"></span>All EEZ 24nm</label></p>
+						<p><input type="checkbox" id="EEZInternTun" /><label for="EEZInternTun"><span class="ui"></span>Eaux intérieures Tunisie</label></p>
+						<p><input type="checkbox" id="MenzelAbdrahmen" checked/><label for="MenzelAbdrahmen"><span class="ui"></span>Ports</label></p>
+						<p><input type="checkbox" id="ZoneInterdite" checked/><label for="ZoneInterdite"><span class="ui"></span>Zones Interdites</label></p>
+					</form>	
+						<p><button  id="TargetMaker" aria-checked="true" ><i class="fa fa-map-marker"></i></button></p>
+						<!-- <p><input type="checkbox" id="ZonePeche" checked/><label for="ZonePeche"><span class="ui"></span>Zones de pêches</label></p> -->
+						<!-- <p><input type="checkbox"id="TargetMarker"  checked><label for="TargetMaker"><span class="ui"></span>Zones de pêches</label></p> -->
+					
+					</div>
+            </div>
+           
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+				<div class="">
+					<label for="file">Ajouter un shapefile (*.ZIP)</label><br>
+					<input class="file" type="file" id="file" accept=".zip" title="" /><br>
+					<input class="submit" type="submit" id="submit" value="Envoyer"> <span id="warning"></span>
+				</div>
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+        </div>
+    </div>
+
+
+
+
+			<!--label class="switch">
+
+			<input id="EEZTun" type="checkbox" class="switch-input" checked>
+
+			<span class="switch-label" data-on="On" data-off="Off"></span>
+			<span class="switch-handle"></span>
+
+		</label>
+		
+
+		<input type="checkbox" id="dn" class="dn">
+	<label for="dn" class="toggle"><span class="toggle__handler"></span></label-->
+			<!--div class="layerMenu container">
+		
+			<label>
+			<input type="checkbox" id="EEZTun"> EEZ Tunisie>
+		</label><br>
+		<label>
+			<input type="checkbox" id="EEZ12Tun"> EEZ 12nm Tunisie
+		</label><br>
+		<label>
+			<input type="checkbox" id="EEZ24Tun"> EEZ 24nm Tunisie
+		</label><br>
+		<label>
+			<input type="checkbox" id="allEEZ24"> All EEZ 24nm
+		</label><br>
+		<label>
+			<input type="checkbox" id="EEZInternTun"> Eaux intérieures Tunisie 
+		</label><br>
+		<label>
+			<input type="checkbox" id="MenzelAbdrahmen" checked> Ports
+		</label><br>
+		<label>
+			<input type="checkbox" id="ZoneInterdite" checked> Zones Interdites
+		</label><br>
+		<label>
+			<input type="checkbox" id="ZonePeche" checked> Zones de pêches
+		</label><br>
+		<label>
+			<input type="checkbox" id="TargetMaker" checked> Mon Bateau
+		</label>
+	</div-->
+
+	
+		
+		<!--form action="#">
+		<p><input type="checkbox" id="test1" /><label for="test1"><span class="ui"></span>Paris</label></p>
+		<p><input type="checkbox" id="test2" /><label for="test2"><span class="ui"></span>London</label></p>
+		<p><input type="checkbox" id="test3" /><label for="test3"><span class="ui"></span>Tunis</label></p>
+	</form-->
+
+		<script type="text/javascript">//<![CDATA[
+			try {
+				var mydata = JSON.parse(NMEAFormat);
+				//console.log(mydata);
+
+				var coordinates_lat_dd = parseCoordinate(mydata[0].Latitude, 'lat', 'ddd', true);
+				var coordinates_lon_dd = parseCoordinate(mydata[0].Longitude, 'lon', 'ddd', true);
+
+				console.info(coordinates_lat_dd);
+				console.info(coordinates_lon_dd);
+
+
+			}
+			catch (err) {
+				console.log(err.message);
+			}
+
+			var LeafIcon = L.Icon.extend({
+				options: {
+					iconSize: [25]
+				}
+			});
+			var TargetIcon = new LeafIcon({ iconUrl: 'images/boatDirection.png' });
+
+
+
+			var LeafPortIcon = L.Icon.extend({
+				options: {
+					iconSize: [55],
+					iconAnchor: [25, 50]
+				}
+			});
+
+			var PortIcon = new LeafPortIcon({ iconUrl: 'images/boatPort.png' }); //anchor1
+
+			//http://w.apip.nat.tn/contact.asp
+
+
+			var Tabarka = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+				Zarzouna = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				SidiMechreg = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				MenzelAbdrahmen = L.marker([37.2683, 9.8927], //
+					{ icon: PortIcon }).bindPopup('Port de Menzel Abdrahmen'),
+				CapZbib = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				GharElMelh = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				KalaatLandalous = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				AtelierLaGoulette = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				LaGoulette = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de La Goulette'),
+				SidiDaoud = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Haouaria = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Kelibia = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				BeniKhiar = L.marker([36.4535, 10.7969],//
+					{ icon: PortIcon }).bindPopup('Port de Beni Khiar'),
+				Hergla = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Sousse = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Monastir = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				KsibetElMediouni = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Sayada = L.marker([35.67449, 10.89283],//
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Teboulba = L.marker([35.66, 10.9575],//
+					{ icon: PortIcon }).bindPopup('Port de Teboulba'),
+				Bekalta = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Mahdia = L.marker([35.4995, 11.0644],//
+					{ icon: PortIcon }).bindPopup('Port de Mahdia'),
+				Salakta = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Chebba = L.marker([35.2322, 11.1588],//
+					{ icon: PortIcon }).bindPopup('Port de la Chebba'),
+				Malloulech = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				LouzaLouata = L.marker([35.04309, 11.03402],//
+					{ icon: PortIcon }).bindPopup('Port de Louza Louata'),
+				ElAwebed = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Kraten = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				ElAttaya = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Sfax = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Mahres = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Zabboussa = L.marker([34.3248, 10.1509],//
+					{ icon: PortIcon }).bindPopup('Port de Zabboussa'),
+				Skhira = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Gabes = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Zarrat = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				HoumetEssouk = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Aghir = L.marker([33.7582, 11.023],//
+					{ icon: PortIcon }).bindPopup('Port de Aghir'),
+				Ajim = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				ElGrin = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				HassiJallaba = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Boughrara = L.marker([33.54052, 10.68888],//
+					{ icon: PortIcon }).bindPopup('Port de Boughara'),
+				ElKetf = L.marker([36.80858, 10.307729],
+					{ icon: PortIcon }).bindPopup('Port de '),
+				Sfax = L.marker([34.72997, 10.76961],//
+					{ icon: PortIcon }).bindPopup('Port de Sfax');
+
+			var tab_port = [Tabarka, MenzelAbdrahmen];
+
+			var ports = L.layerGroup([Tabarka,
+				Zarzouna,
+				SidiMechreg,
+				MenzelAbdrahmen,
+				CapZbib,
+				GharElMelh,
+				KalaatLandalous,
+				AtelierLaGoulette,
+				LaGoulette,
+				SidiDaoud,
+				Haouaria,
+				Kelibia,
+				BeniKhiar,
+				Hergla,
+				Sousse,
+				Monastir,
+				KsibetElMediouni,
+				Sayada,
+				Teboulba,
+				Bekalta,
+				Mahdia,
+				Salakta,
+				Chebba,
+				Malloulech,
+				LouzaLouata,
+				ElAwebed,
+				Kraten,
+				ElAttaya,
+				Sfax,
+				Mahres,
+				Zabboussa,
+				Skhira,
+				Gabes,
+				Zarrat,
+				HoumetEssouk,
+				Aghir,
+				Ajim,
+				ElGrin,
+				HassiJallaba,
+				Boughrara,
+				ElKetf,
+				Sfax]);
+
+			//L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+			map = L.map('map', {
+				center: [36.8, 16.9],
+				zoomSnap: 0.15,
+				zoomDelta: 0.25,
+				zoom: 6,
+				maxZoom: 17,
+				minZoom: 6,
+				 zoomControl: false, // pour supprimer les bouton zoom par defaut, on ajouter dans le menu home
+				layers: [ports]
+			});
+			//}).setView([36.00, 10.035], 14);   // sets the reusable home position
+
+			var zoom_bar = new L.Control.ZoomBar({ position: 'topright' }).addTo(map);
+
+			function getCenterAndZoom() {
+				console.log("Lat: " + map.getCenter().lat);
+				console.log("Lon: " + map.getCenter().lng);
+				console.log("Zoom: " + map.getZoom());
+				alert("Lat: " + map.getCenter().lat + "\nLon: " + map.getCenter().lng + "\nZoom: " + map.getZoom());
+			}
+
+			var TargetMaker = L.marker([coordinates_lat_dd, coordinates_lon_dd],
+				{ icon: TargetIcon, rotationAngle: mydata[0].Track, rotationOrigin: "center" }).addTo(map);
+			console.log(parseFloat(coordinates_lat_dd) + 1);
+			TargetMaker.bindPopup("<center><b>I'm Here</b></br> Lat: " + coordinates_lat_dd + " Lon: " + coordinates_lon_dd + "</center>").openPopup();
+
+			TargetMaker.on('click', function (e) {
+				map.setView([e.latlng.lat, e.latlng.lng], 13, { animate: true });
+			});
+
+			MenzelAbdrahmen.on('click', function (e) {
+				map.setView([e.latlng.lat, e.latlng.lng], 13);
+			});
+			/*
+					// add the boatmarker at a startpoint
+					var boatMarker = L.boatMarker([coordinates_lat_dd, coordinates_lon_dd],
+						{ icon: TargetIcon }).addTo(map);
+			
+			
+			
+					var heading = mydata[0].Track;
+					boatMarker.setHeading(heading);
+			
+					function getRandomArbitrary(min, max) {
+						return Math.random() * (max - min) + min;
+					}
+			
+					// start simulation
+					window.setInterval(function () {
+			
+						var speed = getRandomArbitrary(8.0, 16.0);
+						var direction = getRandomArbitrary((heading - 50) % 360, (heading - 40) % 360);
+			
+						if (heading > 30)
+							heading -= 0.5;
+			
+						boatMarker.setHeadingWind(heading, speed, direction);
+			
+						var destination = turf.destination(boatMarker.toGeoJSON(), 0.02, 60, "kilometers");
+						boatMarker.setLatLng(destination.geometry.coordinates.reverse());
+						//TargetMaker.setLatLng(destination.geometry.coordinates.reverse());
+			
+			
+					}, 488);
+			
+					/**/
+			/*
+				options: {
+				position: 'bottomleft',
+				separator: ' : ',
+				emptyString: 'Unavailable',
+				lngFirst: false,
+				numDigits: 5,
+				lngFormatter: undefined,
+				latFormatter: undefined,
+				prefix: ""		
+			/**/
+			//32.584º N   |    3.538º E
+			L.control.mousePosition({
+				prefix: "", position: 'bottomleft', separator: '&nbsp; &nbsp;|&nbsp; &nbsp;', emptyString: '0º N&nbsp; &nbsp;|&nbsp; &nbsp;0º E', numDigits: 3, lngFormatter: function (num) {
+					var direction = (num < 0) ? 'W' : 'E';
+					var formatted = Math.abs(L.Util.formatNum(num, 3)) + 'º ' + direction;
+					return formatted;
+				},
+				latFormatter: function (num) {
+					var direction = (num < 0) ? 'S' : 'N';
+					var formatted = Math.abs(L.Util.formatNum(num, 3)) + 'º ' + direction;
+					return formatted;
+				}
+			}).addTo(map);
+			L.control.scale().addTo(map);
+
+			// funct =(event)=>{
+			// 	layerClicked = window[event.target.id];
+
+			// 		if (map.hasLayer(layerClicked)) {
+			// 			map.removeLayer(layerClicked);
+			// 		}
+			// 		else {
+			// 			map.addLayer(layerClicked);
+			// 		};
+			// }
+			input_id = (balise,idi) => {
+				$(balise + idi).click(function (event) {
+					layerClicked = window[event.target.id];
+
+					if (map.hasLayer(layerClicked)) {
+						map.removeLayer(layerClicked);
+					}
+					else {
+						map.addLayer(layerClicked);
+					};
+				});
+			}
+			let balise ="input:";
+			let	balise0="button:";
+			input_id(balise0,"#TargetMaker");
+			input_id(balise,"#MenzelAbdrahmen");
+			input_id(balise,"#ZoneInterdite");
+			input_id(balise,"#ZonePeche");
+
+
+			shapeConvert = (url, id, st) => {
+				shp(url).then(function (data) {
+					var layer = L.shapefile(data)//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+					layer.setStyle(st);// Coloring Shape file 
+					$('input:' + id).click(function (event) {
+						if (map.hasLayer(layer)) {
+							map.removeLayer(layer);
+						}
+						else {
+							//if(!(map.hasLayer(layerClicked))) 
+							layer.addTo(map);
+						}
+					});
+
+				}, function (a) { console.log(a) });
+			};
+			//Converted shapes with input button
+			let ste2 = { color: '#383838', "opacity": 0.0, fillColor: '#373737', fillOpacity: 0.3 };
+			shapeConvert('ShapeFile/eezTun.zip', "#EEZTun", ste2);
+
+			let ste3 = { color: '#0000FF', "opacity": 0.0, fillColor: '#0000FF', fillOpacity: 0.3 };
+			shapeConvert('ShapeFile/eez_12nmTun.zip', "#EEZ12Tun", ste3);
+
+			let ste4 = { color: '#0000FF', "opacity": 0.0, fillColor: '#34A7C1', fillOpacity: 0.7 };
+			shapeConvert('ShapeFile/eez_24nmTun.zip', "#EEZ24Tun", ste4);
+			shapeConvert('ShapeFile/eez_12nmTun.zip', "#EEZ24Tun", ste4);
+
+			let ste5 = { color: '#0000FF', "opacity": 0.0, fillColor: '#3433FF', fillOpacity: 0.7 };
+			shapeConvert('ShapeFile/eez_internal_watersTun.zip', "#EEZInternTun", ste5);
+
+			let ste6 = { color: '#0000FF', "opacity": 0.0, fillColor: '#34A7C1', fillOpacity: 0.3 };
+			shapeConvert('ShapeFile/eez_24nmSpain.zip', "#allEEZ24", ste6);
+			//shapeConvert('ShapeFile/eez_24nmGibaltar.zip', "#allEEZ24", ste6);
+			//shapeConvert('ShapeFile/eez_24nmMonaco.zip', "#allEEZ24", ste6);
+			shapeConvert('ShapeFile/eez_24nmFR.zip', "#allEEZ24", ste6);
+
+			shapeConvert('ShapeFile/eez_24nmIT.zip', "#allEEZ24", ste6);
+			shapeConvert('ShapeFile/eez_24nmMalte.zip', "#allEEZ24", ste6);
+			shapeConvert('ShapeFile/eez_24nmGreece.zip', "#allEEZ24", ste6);
+			shapeConvert('ShapeFile/eez_24nmTurk.zip', "#allEEZ24", ste6);
+			shapeConvert('ShapeFile/eez_24nmCyprus.zip', "#allEEZ24", ste6);
+
+			shapeConvert('ShapeFile/eez_24nmMaroc.zip', "#allEEZ24", ste6);
+			shapeConvert('ShapeFile/eez_24nmAL.zip', "#allEEZ24", ste6);
+
+			shapeConvert('ShapeFile/eez_24nmLyb.zip', "#allEEZ24", ste6);
+			shapeConvert('ShapeFile/eez_24nmEgypt.zip', "#allEEZ24", ste6);
+
+
+			//34.729727, 12.769654
+
+			var ZonePeche = L.polyline([
+				[36.286, 11.796],
+				[36.281, 12.786],
+				[37.279, 11.776],
+				[36.290, 11.775],
+				[36.292, 11.788]
+			],
+				{
+					color: 'blue',
+					weight: 2.0,
+					opacity: .6,
+					dashArray: '2,16',
+					lineJoin: 'round'
+				}
+			).addTo(map);
+
+			var ZoneInterdite = L.circle([35.90786, 14.35725], 50000, {
+				color: 'red',
+				"opacity": 0,
+				fillColor: '#f03',
+				fillOpacity: 0.4,
+				//riseOffset:-1
+
+			}).addTo(map);
+
+			ZoneInterdite.bindPopup("Zone Interdite");
+			
+			//////////Show XY Coord on click map
+			var popup = L.popup();
+
+			function onMapClick(e) {
+				popup
+					.setLatLng(e.latlng)
+					.setContent(e.latlng.toString())
+					.openOn(map);
+			} map.on('click', onMapClick);
+			/////////////////SHAPEfile import function
+
+			shapeImport = (url, st) => {
+				shp(url).then(function (data) {
+					var layero = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+					layero.setStyle(st);// Coloring Shape file 
+				}, function (a) { console.log(a) });
+			};
+
+			let sty_TU = { color: '#EAB893', "opacity": 0, fillColor: '#EAB893', fillOpacity: 1 };
+			let sty_AF = { color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 };
+			let sty_EU = { color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 0.7 };
+
+
+			/////		//north Africa
+			shapeImport('ShapeFile/worldcountries_esri_2014Tun.zip', sty_TU);
+
+			shapeImport('ShapeFile/worldcountries_esri_2014Maroc.zip', sty_AF);
+			//shapeImport('ShapeFile/worldcountries_esri_2014MarocSahara.zip', sty_AF);
+			shapeImport('ShapeFile/worldcountries_esri_2014AL.zip', sty_AF);
+			shapeImport('ShapeFile/worldcountries_esri_2014Lyb.zip', sty_AF);
+			shapeImport('ShapeFile/worldcountries_esri_2014Egypt.zip', sty_AF);
+
+			/////		// // Asia
+
+			//shapeImport('ShapeFile/worldcountries_esri_2014Syria.zip', sty_AF);
+			//shapeImport('ShapeFile/worldcountries_esri_2014Lebanon.zip', sty_AF);
+			//shapeImport('ShapeFile/worldcountries_esri_2014Palastine.zip', { color: '#EAB893', fillColor: '#EAB893', fillOpacity: 1 });
+			shapeImport('ShapeFile/worldcountries_esri_2014TurkAsia.zip', sty_EU);
+
+			/////		// // Southern europe
+
+			shapeImport('ShapeFile/worldcountries_esri_2014Monaco.zip', sty_EU);
+			shapeImport('ShapeFile/worldcountries_esri_2014FR.zip', sty_EU);
+			shapeImport('ShapeFile/worldcountries_esri_2014Spain.zip', sty_EU);
+			shapeImport('ShapeFile/worldcountries_esri_2014IT.zip', sty_EU);
+			shapeImport('ShapeFile/worldcountries_esri_2014Malte.zip', sty_EU);
+
+			//shapeImport('ShapeFile/worldcountries_esri_2014Cyprus.zip', sty_EU);
+			//shapeImport('ShapeFile/worldcountries_esri_2014Greece.zip', sty_EU);
+
+			/////		// Western Europe
+			shapeImport('ShapeFile/worldcountries_esri_2014Slovenia.zip', sty_EU);
+			shapeImport('ShapeFile/worldcountries_esri_2014Croatia.zip', sty_EU);
+			shapeImport('ShapeFile/worldcountries_esri_2014Bosnia.zip', sty_EU);
+			shapeImport('ShapeFile/worldcountries_esri_2014Montenegro.zip', sty_EU);
+			shapeImport('ShapeFile/worldcountries_esri_2014Albania.zip', sty_EU);
+
+			document.getElementById("submit").onclick = function (e) {
+				var files = document.getElementById('file').files;
+				if (files.length == 0) {
+					return; //do nothing if no file given yet
+				}
+
+				var file = files[0];
+				console.info(file);
+				console.info(file.name);
+
+				if (file.name.slice(-3) != 'zip') { //Demo only tested for .zip. All others, return.
+					document.getElementById('warning').innerHTML = 'Not *.zip';
+					console.warning("notZip");
+
+					return;
+				} else {
+					document.getElementById('warning').innerHTML = ''; //clear warning message.
+					handleZipFile(file);
+					//document.getElementById('file').innerHTML = ''; //clear warning message.
+
+					console.info("Handel");
+
+				}
+			};
+
+			//More info: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+			function handleZipFile(file) {
+				var reader = new FileReader();
+				reader.onload = function () {
+					if (reader.readyState != 2 || reader.error) {
+						return;
+					} else {
+						convertToLayer(reader.result);
+					}
+				}
+				reader.readAsArrayBuffer(file);
+			}
+
+			function convertToLayer(buffer) {
+				shp(buffer).then(function (geojson) {	//More info: https://github.com/calvinmetcalf/shapefile-js
+					var layer = L.shapefile(geojson).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+					console.log(layer);
+				});
+			}
+			///////////////////////////////////////
+			function comma2point(number) {
+				number = number + ''; // force number into a string context
+				return (number.replace(/,/g, '.'));
+			}
+			function Degrees_to_DMM(deg, type, spacer, minutemark) {
+				if (!deg.toString().match(/[0-9]/)) { return ''; }
+				if (!spacer) { spacer = ''; }
+				if (!minutemark) { minutemark = ''; }
+				if (type == 'lat') {
+					if (parseFloat(deg) < 0) { var dir = 'S'; } else { var dir = 'N'; }
+				} else {
+					if (parseFloat(deg) < 0) { var dir = 'W'; } else { var dir = 'E'; }
+				}
+				var d = Math.floor(Math.abs(parseFloat(deg)));
+				var m = 60 * (Math.abs(parseFloat(deg)) - parseFloat(d))
+				m = Math.round(1000000 * m) / 1000000;
+				if (type == 'lon') {
+					if (d < 10) { d = '00' + d; } else if (d < 100) { d = '0' + d; }
+				} else {
+					if (d < 10) { d = '0' + d; }
+				}
+				if (parseFloat(m) == Math.floor(parseFloat(m))) { m = m + '.0'; }
+				return dir + d + String.fromCharCode(176) + spacer + comma2point(m) + minutemark;
+			}
+
+			function parseCoordinate(coordinate, type, format, spaced) {
+				console.info(coordinate, type, format, spaced);
+				coordinate = coordinate.toString();
+				coordinate = coordinate.replace(/(^\s+|\s+$)/g, ''); // remove white space
+				var neg = 0; if (coordinate.match(/(^-|[WS])/i)) { neg = 1; }
+				if (coordinate.match(/[EW]/i) && !type) { type = 'lon'; }
+				if (coordinate.match(/[NS]/i) && !type) { type = 'lat'; }
+				coordinate = coordinate.replace(/[NESW\-]/gi, ' ');
+				if (!coordinate.match(/[0-9]/i)) {
+					return '';
+				}
+				parts = coordinate.match(/([0-9\.\-]+)[^0-9\.]*([0-9\.]+)?[^0-9\.]*([0-9\.]+)?/);
+				if (!parts || parts[1] == null) {
+					return '';
+				} else {
+					n = parseFloat(parts[1]);
+					if (parts[2]) { n = n + parseFloat(parts[2]) / 60; }
+					if (parts[3]) { n = n + parseFloat(parts[3]) / 3600; }
+					if (neg && n >= 0) { n = 0 - n; }
+					if (format == 'dmm') {
+						if (spaced) {
+							n = Degrees_to_DMM(n, type, ' ');
+						} else {
+							n = Degrees_to_DMM(n, type);
+						}
+					} else {
+						n = Math.round(10000000 * n) / 10000000;
+						if (n == Math.floor(n)) { n = n + '.0'; }
+					}
+					return comma2point(n);
+				}/**/
+			}
+
+
+			// tell the embed parent frame the height of the content
+			if (window.parent && window.parent.parent) {
+				window.parent.parent.postMessage(["resultsFrame", {
+					height: document.body.getBoundingClientRect().height,
+					slug: "z6t14vjr"
+				}], "*")
+			}
+
+			// always overwrite window.name, in case users try to set it manually
+			window.name = "result";
+			var sidebar = L.control.sidebar('sidebarLeft', {position: 'left'}).addTo(map);
+		</script>
+</body>
+
+</html>

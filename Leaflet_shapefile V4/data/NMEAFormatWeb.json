@@ -1,0 +1,19 @@
+NMEAFormat =`[`+
+`{
+"Status":"A", 
+"Speed":"0.0",
+"Track":"90",
+"Magnetic":"0.0",
+"mag_var_dir":"E",
+"Date":"09/Feb/2021",
+"Latitude":"33 51.10",
+"lat_dir":"N",
+"Longitude":"014 11.76",
+"lon_dir":"E",
+"Altitude":"64.3",
+"Sats_in_use":"10",
+"alt_unit":"M",
+"Fix_quality":"1",
+"Time":"10:29:15"
+}`
++`]`;
