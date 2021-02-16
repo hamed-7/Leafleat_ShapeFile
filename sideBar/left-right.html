@@ -7,19 +7,15 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
-    <!--[if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.2/leaflet.ie.css" /><![endif]-->
-
+    <!-- [if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.2/leaflet.ie.css" /><![endif] -->
+    <link rel="stylesheet" href="DropDirection.css">
     <link rel="stylesheet" href="css/leaflet-sidebar.css" />
 
     <style>
-        body {
-            padding: 0;
-            margin: 0;
-        }
-
+     
         html, body, #map {
             height: 100%;
             font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
@@ -30,7 +26,20 @@
             color: #AAA;
         }
 
-        
+        .mapbox{
+        position: relative;
+        }
+        .mapbox .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 314159;
+        pointer-events: none;
+    }
+
+    .mapbox .overlay .btn {
+        pointer-events: initial;
+}
 
 
     </style>
@@ -91,11 +100,31 @@
 
 
 
+<div id="sidebarBottom" class="sidebar sidebar-bottom collapsed">
+    <!-- Nav tabs -->
+    <div class="sidebar-tabs">
+        
+        <ul role="tablist">
+            <li><a class=" fa fa-user" data-dropup="drop-up2" ></a></li>
+            <li ><a  class=" fa fa-envelope" data-dropup="drop-up3" ></i></a></li>
+            
+           <li><a class="btn dropdown" data-dropup="drop-up"></a>
+           </li>
+       
+        </ul>
+
+        <!-- <ul role="tablist">
+            <li><a href="#settings" class="fa fa-gear" role="tab"></a></li>
+    
+           
+        </ul> -->
+    </div>
+
+</div>
+ 
 
 
-
-
-    <div id="sidebarLeft" class="sidebar sidebar-left collapsed">
+<div id="sidebarLeft" class="sidebar sidebar-left collapsed">
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             
@@ -153,15 +182,51 @@
         </div>
     </div>
 
+    <div class="container-fluid">
+        <div class="mapbox">
+            <div class="overlay">
 
-    <div id="map" class="sidebar-map leaflet-left"></div>
+                    <div id="drop-up" class="dropdown_content">
+                        <a href="#" class="dropdown_content-item">Shopping</a>
+                        <a href="#" class="dropdown_content-item">Gym</a>
+                        <a href="#" class="dropdown_content-item">Massage</a>
+                        <a href="#" class="dropdown_content-item">Work</a>
+                    </div>
+            </div>
+         <div class="overlay">
+                <div id="drop-up3" class="dropdown_content">
+                    <p class="dropdown_content-item"><input  type="checkbox" id="EEZTun" /><label for="EEZTun"><span class="ui"></span>EEZ Tunisie</label></p>
+                    <p class="dropdown_content-item"><input type="checkbox" id="EEZ12Tun" /><label for="EEZ12Tun"><span class="ui"></span>EEZ 12nm Tunisie</label></p>
+                    <p class="dropdown_content-item"><input type="checkbox" id="EEZ24Tun" /><label for="EEZ24Tun"><span class="ui"></span>EEZ 24nm Tunisie</label></p>
+                </div>
+        </div>
+         <div class="overlay">
+            <div id="drop-up2" class="dropdown_content">
+                <p class="dropdown_content-item"> Test</p>
+            </div>
+        </div>
+    <!--   <div class="row-fluid overlay">
+        <div id="drop-up1" class="dropdown_content">
+            <a href="#" class="dropdown_content-item">Shopping</a>
+            <a href="#" class="dropdown_content-item">Gym</a>
+            <a href="#" class="dropdown_content-item">Massage</a>
+            <a href="#" class="dropdown_content-item">Work</a>
+        </div>
+</div> -->
+            <div class="row-fluid some" id="map" style="box-sizing: inherit;">
+                <img src="//placehold.it/1500x650">
+            </div>
+            
+        </div>
+    </div>   
 
     <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
     <script src="leaflet-sidebar.js"></script>
-
+    <script src="DropDirection.js">
+    </script>
     <script>
         var map = L.map('map');
-        map.setView([51.2, 7], 9);
+        map.setView([36,1], 11);
 
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
@@ -169,7 +234,8 @@
         }).addTo(map);
         var sidebar = L.control.sidebar('sidebarRight', {position: 'right'}).addTo(map);
         var sidebar = L.control.sidebar('sidebarLeft', {position: 'left'}).addTo(map);
-
+        var sidebar = L.control.sidebar('sidebarBottom', {position: 'le'}).addTo(map);
+      
         </script>
 </body>
 </html>

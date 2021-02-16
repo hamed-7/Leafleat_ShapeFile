@@ -1,13 +1,11 @@
 .sidebar {
-    position: absolute;
-    top: 0;
-    bottom: 0;
+    position: absolute; 
     width: 30%;
     overflow:hidden;
     z-index: 2000;
     top: 10px;
     bottom: 10px;
-    transition: right 400ms;  }
+    transition:step-start;  }
     .sidebar.collapsed {
       width: 40px; }
     @media (max-width:700px) {
@@ -57,6 +55,24 @@
       .sidebar-right {
         right: 10px; } }
   
+  .sidebar-bottom {
+    position:-webkit-sticky;
+    transform: rotate(-90deg);
+    left:48% ;
+    right:45%;
+    margin-top:36%;
+    height: 40%;
+       }
+    @media (max-width: 768px) {
+      .sidebar-bottom {
+        transform: rotate(-90deg);
+        bottom: -90%; } }
+         .sidebar-bottom .sidebar-tabs > li > a, .sidebar-bottom .sidebar-tabs > ul > li >a ,.sidebar-bottom .sidebar-tabs > ul > li > button {
+        transform: rotate(90deg);
+      } 
+      .sidebar-bottom>.btn-group.dropup>li{
+        transform: inherit;
+      }
   .sidebar-tabs {
     top: 0;
     bottom: 0;
@@ -67,7 +83,7 @@
     .sidebar-right .sidebar-tabs {
       right: 0; }
     .sidebar-tabs, .sidebar-tabs > ul {
-      position: absolute;
+      position: absolute;/* relative*/
       width: 40px;
       margin: 0;
       padding: 0;
@@ -78,7 +94,7 @@
         color: #333;
         font-size: 12pt;
         overflow: hidden;
-        transition: all 500ms; }
+        transition:all 500ms; }
         .sidebar-tabs > li:hover, .sidebar-tabs > ul > li:hover {
           color: #e09f26;
           background-color: rgb(226, 226, 226); }
@@ -96,18 +112,22 @@
           width: 100%;
           height: 100%;
           line-height: 40px;
+         
           color: inherit;
           text-decoration: none;
           text-align: center; }
     .sidebar-tabs > ul + ul {
       bottom: 0; }
+/* 
+      .sidebar-content {
+        position:relative;
+        height:min-content;
+        top:unset;
+        bottom: 0;
+
+         }  */
   /* 
-  .sidebar-content {
-    position:relative;
-    height:min-content;
-    top:unset;
-    bottom: 0;
-     }
+  
     .sidebar-left .sidebar-content {
       left: 40px;
       right: 0; }
@@ -119,6 +139,12 @@
       overflow-x: hidden;
       /* z-index: -5; */
      }
+     /* .sidebar-bottom .sidebar.collapsed > .sidebar-pane {
+      overflow-y: hidden;
+      overflow-x: hidden;
+      position:fixed;
+      /* z-index: -5; */
+     
   .sidebar-left .sidebar-pane
   {
     padding-left: 60px;
@@ -127,19 +153,32 @@
   {
     padding-right: 60px;
   }
+ 
   .sidebar-pane {
     display: none;
     overflow-x: hidden;
     overflow-y: hidden;
     box-sizing: border-box;
-    padding: 10px 20px; }
+    padding: 10px 20px;
+   }
+  .sidebar-bottom >.sidebar-pane,.sidebar-bottom>.sidebar-content{
+transform: rotate(90deg); 
+display:-moz-popup;
+padding: inherit;
+margin: inherit;
+}
+
   
 
 /* open bar using a tag */
 
+ .sidebar-bottom.sidebar-pane.active#messages{
+  display:block; 
+  background-color: rgba(255, 255, 255, 0.849);
+} 
     .sidebar-pane.active#layers{
-   
-      display:block;
+     
+      display:-webkit-box;
       background-color: rgba(255, 255, 255, 0.849);
    }
     .sidebar-pane.active#profile{
@@ -150,13 +189,21 @@
    
   }
   .sidebar-pane.active#messages{
-    display:block;
+   display:block;
    margin-top: 80px;
    background-color: hsla(0, 0%, 100%, 0.849)
 
   }
 
-  
+  .sidebar-pane-Bottom {
+    /* transform: rotate(-90deg); */
+    min-width: 265px;
+    display:-moz-deck;
+   margin-top: 80px;
+   background-color:  rgba(255, 255, 255, 0.849);
+
+   } 
+
     @media (min-width: 768px) and (max-width: 991px) {
       .sidebar-pane {
         min-width: 265px; } }
@@ -177,8 +224,6 @@
     background-color: #373737; }
     .sidebar-right .sidebar-header {
     padding-left: 30px; }
-  
-    
   
   .sidebar-close {
     position:relative;
@@ -234,8 +279,8 @@
         margin-right: 0; } }
   
   .sidebar-content {
-    box-shadow: 5px 2px 5px rgba(0, 0, 0, 0.548); }
-    
+    box-shadow: 5px 2px 5px rgba(0, 0, 0, 0.548); 
+    background-color:  rgba(255, 255, 255, 0.849);}
     @media (min-width: 768px) {
       
       .sidebar .sidebar-content{
@@ -278,4 +323,4 @@
   @media (min-width: 768px) {
     .sidebar-right.collapsed ~ .sidebar-map .leaflet-right {
       right: 50px; } } 
-   */
+*/
