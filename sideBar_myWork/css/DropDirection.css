@@ -85,6 +85,12 @@
   .dropdown[aria-expanded=true] {
     background: #373737;
   }
+  .fa[aria-expanded=true]{
+    background-color: #373737;
+    color:#e09f26;
+    border-color: transparent transparent #e09f26 transparent;
+  }
+  
   
   .dropdown_content {
     position:-ms-page;
