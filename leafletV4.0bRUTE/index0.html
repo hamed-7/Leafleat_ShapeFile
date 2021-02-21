@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<title>Leaflet-shapefile</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="robots" content="noindex, nofollow">
+	<meta name="googlebot" content="noindex, nofollow">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!--script type="text/javascript"  src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script-->
+	<script type="text/javascript" src="jquery.min.js"></script>
+
+	<!--link rel="stylesheet" type="text/css" href="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.css">
+  	<script type="text/javascript" src="http://cdn.leafletjs.com/leaflet-0.6.2/leaflet.js"></script>
+  	<script type="text/javascript" src="https://cdn.rawgit.com/calvinmetcalf/shapefile-js/gh-pages/dist/shp.js"></script>
+  	<script type="text/javascript" src="https://cdn.rawgit.com/calvinmetcalf/leaflet.shapefile/gh-pages/leaflet.shpfile.js"></script-->
+	<link rel="stylesheet" type="text/css" href="leaflet.css">
+	<link rel="stylesheet" type="text/css" href="L.Control.MousePosition.css">
+	<link rel="stylesheet" type="text/css" href="leaflet.css">
+	<script type="text/javascript" src="leaflet.js"></script>
+	<script type="text/javascript" src="L.Control.MousePosition.js"></script>
+	<script type="text/javascript" src="leaflet.boatmarker.js"></script>
+	<script type="text/javascript" src="shp.js"></script>
+	<script type="text/javascript" src="leaflet.shpfile.js"></script>
+	<script type="text/javascript" src="data/NMEAFormat.json"></script>
+	<style id="compiled-css" type="text/css">
+		#map {
+			height: 500px;
+			z-index: 1;
+		}
+
+		#zoneInterdite {
+			z-index: -1;
+		}
+
+		input {
+			margin-top: 10px;
+		}
+
+		.overlay {
+			position: absolute;
+			top: 25%;
+			left: 3%;
+			background-color: #073856;
+			opacity: .7;
+			padding: 10px;
+			border-radius: 5px;
+			z-index: 2;
+		}
+
+		.overlay label {
+			color: white;
+			margin: 1px 2px;
+			display: inline-block;
+			font-family: 'Open Sans', sans-serif;
+			font-size: 14px;
+		}
+	</style>
+
+
+	<script id="insert"></script>
+</head>
+
+<body>
+	<div id="map"></div>
+	<div class="overlay">
+		<label>
+			<input type="checkbox" value="eezTun" checked> EEZ Tunisie
+		</label><br>
+		<label>
+			<input type="checkbox" value="MenzelAbdrahmen" checked> Port
+		</label><br>
+		<label>
+			<input type="checkbox" value="circle" checked> Zone Interdite
+		</label><br>
+		<label>
+			<input type="checkbox" value="TargetMaker" checked> GPS
+		</label>
+	</div>
+	<label for="input">Select a zipped shapefile:</label> <input type="file" id="file"> <br>
+	<input type="submit" id="submit"> <span id="warning"></span>
+
+
+	<script type="text/javascript">//<![CDATA[
+
+		try {
+			var mydata = JSON.parse(NMEAFormat);
+			console.log(mydata);
+			console.log(mydata[0].Latitude + mydata[0].lat_dir);
+
+		}
+		catch (err) {
+			console.log(err.message);
+		}
+		var LeafIcon = L.Icon.extend({
+			options: {
+				//shadowUrl: 'images/marker-icon-3x.png',
+				iconSize: [35],
+				//shadowSize: [50, 64],
+				//iconAnchor: [22, 94],
+				//shadowAnchor: [4, 62],
+				//popupAnchor: [-3, -76]
+			}
+		});
+
+		var TargetIcon = new LeafIcon({ iconUrl: 'images/ship.png' });
+
+		var LeafPortIcon = L.Icon.extend({
+			options: {
+				//shadowUrl: 'images/marker-icon-3x.png',
+				iconSize: [55],
+				//shadowSize: [50, 64],
+				iconAnchor: [25, 50],
+				//shadowAnchor: [4, 62],
+				//popupAnchor: [-3, -76]
+			}
+		});
+
+
+		//http://w.apip.nat.tn/contact.asp
+		var PortIcon = new LeafPortIcon({ iconUrl: 'images/boatPort.png' }); //anchor1
+
+		var Tabarka = L.marker([36.80858, 10.307729],
+			{ icon: PortIcon }).bindPopup('Port de '),
+			Zarzouna = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			SidiMechreg = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			MenzelAbdrahmen = L.marker([37.2683, 9.8927], //
+				{ icon: PortIcon }).bindPopup('Port de Menzel Abdrahmen'),
+			CapZbib = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			GharElMelh = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			KalaatLandalous = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			AtelierLaGoulette = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			LaGoulette = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de La Goulette'),
+			SidiDaoud = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Haouaria = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Kelibia = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			BeniKhiar = L.marker([36.4535, 10.7969],//
+				{ icon: PortIcon }).bindPopup('Port de Beni Khiar'),
+			Hergla = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Sousse = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Monastir = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			KsibetElMediouni = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Sayada = L.marker([35.67449, 10.89283],//
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Teboulba = L.marker([35.66, 10.9575],//
+				{ icon: PortIcon }).bindPopup('Port de Teboulba'),
+			Bekalta = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Mahdia = L.marker([35.4995, 11.0644],//
+				{ icon: PortIcon }).bindPopup('Port de Mahdia'),
+			Salakta = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Chebba = L.marker([35.2322, 11.1588],//
+				{ icon: PortIcon }).bindPopup('Port de la Chebba'),
+			Malloulech = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			LouzaLouata = L.marker([35.04309, 11.03402],//
+				{ icon: PortIcon }).bindPopup('Port de Louza Louata'),
+			ElAwebed = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Kraten = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			ElAttaya = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Sfax = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Mahres = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Zabboussa = L.marker([34.3248, 10.1509],//
+				{ icon: PortIcon }).bindPopup('Port de Zabboussa'),
+			Skhira = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Gabes = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Zarrat = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			HoumetEssouk = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Aghir = L.marker([33.7582, 11.023],//
+				{ icon: PortIcon }).bindPopup('Port de Aghir'),
+			Ajim = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			ElGrin = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			HassiJallaba = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Boughrara = L.marker([33.54052, 10.68888],//
+				{ icon: PortIcon }).bindPopup('Port de Boughara'),
+			ElKetf = L.marker([36.80858, 10.307729],
+				{ icon: PortIcon }).bindPopup('Port de '),
+			Sfax = L.marker([34.72997, 10.76961],//
+				{ icon: PortIcon }).bindPopup('Port de Sfax');
+
+		var ports = L.layerGroup([Tabarka,
+			Zarzouna,
+			SidiMechreg,
+			MenzelAbdrahmen,
+			CapZbib,
+			GharElMelh,
+			KalaatLandalous,
+			AtelierLaGoulette,
+			LaGoulette,
+			SidiDaoud,
+			Haouaria,
+			Kelibia,
+			BeniKhiar,
+			Hergla,
+			Sousse,
+			Monastir,
+			KsibetElMediouni,
+			Sayada,
+			Teboulba,
+			Bekalta,
+			Mahdia,
+			Salakta,
+			Chebba,
+			Malloulech,
+			LouzaLouata,
+			ElAwebed,
+			Kraten,
+			ElAttaya,
+			Sfax,
+			Mahres,
+			Zabboussa,
+			Skhira,
+			Gabes,
+			Zarrat,
+			HoumetEssouk,
+			Aghir,
+			Ajim,
+			ElGrin,
+			HassiJallaba,
+			Boughrara,
+			ElKetf,
+			Sfax]);
+
+		//L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+
+		map = L.map('map', {
+			center: [36.8, 16.9],
+			zoom: 6,
+			layers: [ports]
+		});
+
+		L.control.mousePosition().addTo(map);
+
+		shapeConvert = (url, id, st) => {
+
+			shp(url).then(function (data) {
+				//geo.addData(data);
+				//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+				//new L.Shapefile(data);
+				var layer = L.shapefile(data)//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+				layer.setStyle(st);// Coloring Shape file 
+				$('input:' + id).click(function (event) {
+					if (map.hasLayer(layer)) {
+						map.removeLayer(layer);
+					}
+					else {
+						//if(!(map.hasLayer(layerClicked))) 
+						layer.addTo(map);
+					}
+				});
+			}, function (a) { console.log(a) });
+		};
+		//let ste = { color: '#989898', "opacity": 10, fillColor: '#ffffff', fillOpacity: 0.5 };
+		//shapeConvert('ShapeFile/TunisiaWorldcountries_esri_2014.zip', "#tuni", ste);
+		let ste2 = { color: '#383838', "opacity": 0.5, fillColor: '#373737', fillOpacity: 0.2 };
+		shapeConvert('ShapeFile/eezTun.zip', "#eezTun", ste2);
+		/**/
+
+		//34.729727, 12.769654
+		var TargetMaker = L.marker([35.9, 33.76961],
+			{ icon: TargetIcon }).addTo(map);
+		TargetMaker.bindPopup("<b>I'm Here</b><br />").openPopup();
+
+
+		/*
+			var baseMaps = {
+			"<span style='color: gray'>Grayscale</span>": grayscale,
+			"Streets": streets
+		};
+		*/
+		L.tileLayer('hhttp://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			//attribution: '&copy; <a href="http://w.openstreetmap.org/copyright">OpenStreetMap</a>',
+			//maxZoom: 17,
+			minZoom: 6,
+			//tileSize: 3333,
+			//zoomOffset: -5,
+		}).addTo(map);
+
+
+		var polyline = L.polyline([
+			[36.286, 11.796],
+			[36.281, 12.786],
+			[36.279, 11.776],
+			[36.290, 11.775],
+			[36.292, 11.788]
+		],
+			{
+				color: 'red',
+				weight: 5,
+				opacity: .5,
+				dashArray: '20,15',
+				lineJoin: 'round'
+			}
+		).addTo(map);
+
+		var circle = L.circle([35.90786, 14.35725], 50000, {
+			color: 'red',
+			"opacity": 0,
+			fillColor: '#f03',
+			fillOpacity: 0.4
+		}).addTo(map);
+
+		circle.bindPopup("Zone Interdite");
+		/*
+				var marker = L.marker([36.80858, 10.307729]).addTo(map);
+				marker.bindPopup("<b>Port de </b><br />I am in Tunisia").openPopup();
+		
+				marker = L.marker([34.72997, 10.76961]).addTo(map);
+				marker.bindPopup("<b>Port de Sfax</b><br />I am in Tunisia").openPopup();
+		*/
+
+		//TargetMaker.bindPopup("<b>I'm Here</b><br />").openPopup();
+		/**/
+		/*
+				var popup1 = L.popup()
+			.setLatLng([35, 15])
+			.setContent("I am a standalone popup.")
+			.openOn(map);/**/
+		/*
+				L.marker(
+					[36.80786, 10.30725],
+					{ icon: greenIcon }).addTo(map).bindPopup("<b>Port de </b><br />I am in Tunisia").openPopup();
+				//.bindPopup("<b>Hello world!</b><br />I am a popup in EGYPT <br /> <img src='Marker/leaf-green.png' />.").openPopup();
+				////
+		
+				L.marker(
+					[34.72997, 10.76961],
+					{ icon: greenIcon2 }).addTo(map).bindPopup("<b>Port de Sfax</b><br />I am in Tunisia").openPopup();
+				//.bindPopup("<b>Hello world!</b><br />I am a popup in Sfax <br /> <img src='Marker/leaf-green.png' />.").openPopup();
+		/**/
+		///////////////////////////
+
+
+
+		var popup = L.popup();
+
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent(e.latlng.toString())
+				.openOn(map);
+		}
+
+		map.on('click', onMapClick);
+
+
+		$("input").click(function (event) {
+			layerClicked = window[event.target.value];
+
+			if (map.hasLayer(layerClicked)) {
+				map.removeLayer(layerClicked);
+			}
+			else {
+				map.addLayer(layerClicked);
+			};
+		});
+		/**/
+		/**/
+		/*shp('ShapeFile/TunisiaWorldcountries_esri_2014.zip').then(function (data) {
+			//geo.addData(data);
+			//L.tileLayer(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			//new L.Shapefile(data);
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#FFFF00', "opacity": 00, fillColor: '#ffffff', fillOpacity: 1.5 });// Coloring Shape file 
+			console.log(layer);
+		}, function (a) { console.log(a) });/**/
+
+		shp('ShapeFile/worldcountries_esri_2014Tun.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#EAB893', "opacity": 0, fillColor: '#EAB893', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Maroc.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014MarocSahara.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014AL.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Lyb.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+			//layer.setStyle({ color: '#F7A80F', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Egypt.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Syria.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Lebanon.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Palastine.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#E6C8B0', "opacity": 0, fillColor: '#E6C8B0', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		//////////////////////
+		shp('ShapeFile/worldcountries_esri_2014Spain.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014FR.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Monaco.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014IT.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Slovenia.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Croatia.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Bosnia.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Montenegro.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Albania.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Malte.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+		/*
+				shp('ShapeFile/worldcountries_esri_2014Greece.zip').then(function (data) {
+					var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+					layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+		
+					console.log(layer);
+				}, function (a) { console.log(a) });
+		*/
+		shp('ShapeFile/worldcountries_esri_2014TurkEur.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+		shp('ShapeFile/worldcountries_esri_2014TurkAsia.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		shp('ShapeFile/worldcountries_esri_2014Cyprus.zip').then(function (data) {
+			var layer = L.shapefile(data).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+			layer.setStyle({ color: '#98D55E', "opacity": 0, fillColor: '#98D55E', fillOpacity: 1 });// Coloring Shape file 
+
+			console.log(layer);
+		}, function (a) { console.log(a) });
+
+		document.getElementById("submit").onclick = function (e) {
+			var files = document.getElementById('file').files;
+			if (files.length == 0) {
+				return; //do nothing if no file given yet
+			}
+
+			//var path = require('path');
+			//var filename = path.basename('/ShapeFile/TunisiaWorldcountries_esri_2014.zip');
+			//console.log(filename);
+
+			var file = files[0];
+			//console.info(files[0]);
+			//var file = "TunisiaWorldcountries_esri_2014.zip";
+			//var file = new File(["foo"], "TunisiaWorldcountries_esri_2014.zip", {
+			//	type: "text/plain",
+			//});
+			console.info(file);
+			console.info(file.name);
+			if (file.name.slice(-3) != 'zip') { //Demo only tested for .zip. All others, return.
+				document.getElementById('warning').innerHTML = 'Select .zip file';
+				console.warning("notZip");
+
+				return;
+			} else {
+				document.getElementById('warning').innerHTML = ''; //clear warning message.
+				handleZipFile(file);
+				console.info("Handel");
+
+			}
+		};
+
+		//More info: https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+		function handleZipFile(file) {
+			var reader = new FileReader();
+			reader.onload = function () {
+				if (reader.readyState != 2 || reader.error) {
+					return;
+				} else {
+					convertToLayer(reader.result);
+				}
+			}
+			reader.readAsArrayBuffer(file);
+		}
+
+		function convertToLayer(buffer) {
+			shp(buffer).then(function (geojson) {	//More info: https://github.com/calvinmetcalf/shapefile-js
+				var layer = L.shapefile(geojson).addTo(map);//More info: https://github.com/calvinmetcalf/leaflet.shapefile
+				console.log(layer);
+			});
+		}
+	</script>
+
+	<script>
+		// tell the embed parent frame the height of the content
+		if (window.parent && window.parent.parent) {
+			window.parent.parent.postMessage(["resultsFrame", {
+				height: document.body.getBoundingClientRect().height,
+				slug: "z6t14vjr"
+			}], "*")
+		}
+
+		// always overwrite window.name, in case users try to set it manually
+		window.name = "result"
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<script type="text/javascript">//<![CDATA[
+/*
+convertDMSToDD: function (dms) {
+     let parts = dms.split(/[^\d+(\,\d+)\d+(\.\d+)?\w]+/);
+     let degrees = parseFloat(parts[0]);
+     let minutes = parseFloat(parts[1]);
+     let seconds = parseFloat(parts[2].replace(',','.'));
+     let direction = parts[3];
+
+     console.log('degrees: '+degrees)
+     console.log('minutes: '+minutes)
+     console.log('seconds: '+seconds)
+     console.log('direction: '+direction)
+
+     let dd = degrees + minutes / 60 + seconds / (60 * 60);
+
+     if (direction == 'S' || direction == 'W') {
+       dd = dd * -1;
+     } // Don't do anything for N or E
+     return dd;
+   }
+/**/
+//++++++++++++++++++++++++++++++++++++++++++++++++++
+// Degrés, minutes et secondes (DMS) : 41°24'12.2" N 2°10'26.5" E
+// Degrés et minutes décimales (DMM) : 41 24.2028, 2 10.4418 //Flett
+// Degrés décimaux (DD) : 41.40338, 2.17403 // Map 
+
+//// How to convert from a sexagesimal to decimal
+//   # You have degrees, minutes, and seconds (-73° 59’ 14.64") instead of decimal degrees (-73.9874°)
+//   # The whole units of degrees will remain the same
+//   # Divide the seconds by 60 (14.64/60 = 0.244)
+//   # Sum the resulting to the minute and divide by 60 (59.244/60 = 0.9874)
+//   # The resulting is the decimal value of degrees (0.9874)
+//   # Sum the degrees to the decimal using the symbols for degrees (°) (-73.9874°)
+
+//// How to convert from a decimal to sexagesimal
+//   # You have decimal degrees (-73.9874°) instead of degrees, minutes, and seconds (-73° 59’ 14.64")
+//   # The whole units of degrees will remain the same (-73.9874° longitude, start with 73°)
+//   # Multiply the decimal by 60 (0.9874 * 60 = 59.244)
+//   # The whole number becomes the minutes (59’)
+//   # Take the remaining decimal and multiply by 60. (0.244 * 60 = 14.64)
+//   # The resulting number becomes the seconds (14.64"). Seconds can remain as a decimal.
+//   # Take your three sets of numbers and put them together, using the symbols for degrees (°), minutes (’), and seconds (") (-73° 59’ 14.64" longitude)
+
+//++++++++++++++++++++++++++++++++++++
+   function ConvertDMSToDD(degrees, minutes, seconds, direction) {
+    var dd = Number(degrees) + Number(minutes)/60 + Number(seconds)/(60*60);
+    if (direction == "S" || direction == "W") { dd = dd * -1; }
+    return dd;
+}
+
+function ConvertDMToDD(degrees, minutes, direction) {
+    var dd = Number(degrees) + Number(minutes)/60;
+    if (direction == "S" || direction == "W") { dd = dd * -1; }
+    return dd;
+}
+
+// @ input {deg}     Numeric; degrees number to convert
+// @ input {dplaces} Decimal places to use for output seconds
+//                   Default 0 places
+// @ return {DMS} string degrees (°) minutes (') seconds (")
+//
+function ConvertDDToDMS (deg, dplaces=0) {
+  var d = Math.floor (deg);          // make degrees
+  var m = Math.floor((deg-d)*60);    // make minutes
+  var s = Math.round(((deg-d)*60-m)*60*Math.pow(10,dplaces))/Math.pow(10,dplaces); // Make sec rounded
+  s == 60 && (m++, s=0 );            // if seconds rounds to 60 then increment minutes, reset seconds
+  m == 60 && (d++, m=0 );            // if minutes rounds to 60 then increment degress, reset minutes
+  return (d + "° " + m + "' " + s+'"');   // create output DMS string
+}
+
+
+
+//LatDec = DD + SS/60 = 31 + 37.36664/60 = 31 + 0.6227773333333333 = 31.6227773333333333
+
+
+function ParseDMS(input) {
+    var parts = input.split(/[^\d\w]+/);
+    console.info(parts);
+    var lat = ConvertDMSToDD(parts[0], parts[1], parts[2], parts[3]);
+    var lng = ConvertDMSToDD(parts[4], parts[5], parts[6], parts[7]);
+    return [lat, lng];
+}
+
+
+console.log("From", "36°57'9' N 10°4'21' E");
+var latLong = ParseDMS("36°57'9' N 10°4'21' E");
+console.log("to ", latLong[0]);
+console.log("to ", latLong[1]);
+
+
+console.log("to ", ParseDMS("3651.09 N 01011.76 E"));
+//[36.9525, -110.07249999999999]
+
+console.log(ConvertDMToDD(36,51.09, "N"));         // 
+console.log(ConvertDMToDD(010,11.76,"E"));         // 
+
+
+console.log(ConvertDDToDMS(55.23456));         // 55° 14' 4"
+//console.log(ConvertDDToDMS(55.23456   ,3));    // 55° 14' 4.416"
+// console.log(ConvertDDToDMS(4 + 20/60  ,2));    // 4° 20' 0"
+// console.log(ConvertDDToDMS(89.64789   ,2));    // 89° 38' 52.4"
+// console.log(ConvertDDToDMS(-23.1234567,3));    // -24° 52' 35.556"
+
+
+</script>
+</body>
+
+</html>
