@@ -1,0 +1,132 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>sidebar-v2 example</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.2/leaflet.ie.css" /><![endif]-->
+
+    <link rel="stylesheet" href="css/leaflet-sidebar.css" />
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #map {
+            height: 100%;
+            font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+        }
+
+        .lorem {
+            font-style: italic;
+            color: #AAA;
+        }
+
+        
+
+
+    </style>
+</head>
+<body>
+    <div id="sidebarLeft" class="sidebar sidebar-left collapsed">
+        <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            
+            <ul role="tablist">
+                <li><a href="#layers" role="tab"><i class="fa fa-bars"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                <li ><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+            </ul>
+
+            <ul role="tablist">
+                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content" >
+            <div class="sidebar-pane " id="layers">
+                <div >
+                    <h1 class="sidebar-header">
+                        Control layers        
+                        <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                        
+                    </h1>
+    
+                    <form action="#">
+                        <p><input type="checkbox" id="EEZTun" /><label for="EEZTun"><span class="ui"></span>EEZ Tunisie</label></p>
+                        <p><input type="checkbox" id="EEZ12Tun" /><label for="EEZ12Tun"><span class="ui"></span>EEZ 12nm Tunisie</label></p>
+                        <p><input type="checkbox" id="EEZ24Tun" /><label for="EEZ24Tun"><span class="ui"></span>EEZ 24nm Tunisie</label></p>
+                        <p><input type="checkbox" id="allEEZ24" /><label for="allEEZ24"><span class="ui"></span>All EEZ 24nm</label></p>
+                        <p><input type="checkbox" id="EEZInternTun" /><label for="EEZInternTun"><span class="ui"></span>Eaux intérieures Tunisie</label></p>
+                        <p><input type="checkbox" id="MenzelAbdrahmen" checked/><label for="MenzelAbdrahmen"><span class="ui"></span>Ports</label></p>
+                        <p><input type="checkbox" id="ZoneInterdite" checked/><label for="ZoneInterdite"><span class="ui"></span>Zones Interdites</label></p>
+                        <p><input type="checkbox" id="ZonePeche" checked/><label for="ZonePeche"><span class="ui"></span>Zones de pêches</label></p>
+                        <p><input type="checkbox" id="TargetMaker" checked/><label for="TargetMaker"><span class="ui"></span>Mon Bateau</label></p>
+                    </form>
+        
+                </div>
+               
+            </div>
+
+            <div class="sidebar-pane" id="profile">
+                <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="messages">
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+                <p>ba33 
+                    baa3
+                </p>
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="map" class="sidebar-map leaflet-left"></div>
+
+    <a href="https://github.com/Turbo87/sidebar-v2/"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="leaflet-sidebar.js"></script>
+
+    <script>
+        var map = L.map('map');
+        map.setView([51.2, 7], 9);
+
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        var marker = L.marker([51.2, 7]).addTo(map);
+
+        var sidebar = L.control.sidebar('sidebarLeft', {position: 'left'}).addTo(map);
+    </script>
+</body>
+</html>
+<!-- <script>
+    var map = L.map('map');
+    map.setView([51.2, 7], 9);
+
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    var marker = L.marker([51.2, 7]).addTo(map);
+
+    var sidebarRight = L.control.sidebar('sidebarRight', {position: 'right'}).addTo(map);
+var sidebarLeft = L.control.sidebar('sidebar-Left', {position: 'top'}).addTo(map);
+</script> -->
