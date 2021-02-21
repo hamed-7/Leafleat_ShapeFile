@@ -1,14 +1,18 @@
 .sidebar {
   position: absolute;
   width: 30%;
-  height: 50%;
+  height: 52%;
   overflow: hidden;
   z-index: 2000;
-  top: 10px;
+  top:10px;
   bottom: 10px;
   transition: step-start;
 }
+/* .sidebar-right{
+  top:250px;
+  height: 40%;
 
+} */
 .sidebar.collapsed {
   width: 40px;
 }
@@ -85,27 +89,25 @@
 
 .sidebar-bottom {
   position: -webkit-sticky;
-  transform: rotate(-90deg);
   left: 48%;
   right: 45%;
   margin-top: 36%;
   height: 40%;
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .sidebar-bottom {
-    transform: rotate(-90deg);
-    bottom: -90%;
+   
   }
-}
+} */
 
-.sidebar-bottom .sidebar-tabs>li>a, .sidebar-bottom .sidebar-tabs>ul>li>a, .sidebar-bottom .sidebar-tabs>ul>li>button {
+/* .sidebar-bottom .sidebar-tabs>li>a, .sidebar-bottom .sidebar-tabs>ul>li>a, .sidebar-bottom .sidebar-tabs>ul>li>button {
   transform: rotate(90deg);
 }
 
 .sidebar-bottom>.btn-group.dropup>li {
   transform: inherit;
-}
+} */
 
 .sidebar-tabs {
   top: 0;
@@ -113,6 +115,21 @@
   height: 100%;
   background-color: rgba(255, 255, 255, 1);
 }
+.sidebar-tabs-Bottom {
+  position: fixed;
+  bottom: 2%;
+  left: 39%;
+  height: 40px;
+  width:250px;
+  display: flex;
+  flex-direction: row;
+  color: inherit;
+  justify-content:space-around;
+  /* text-decoration: none; */
+  text-align: center;
+  background-color: rgba(255, 255, 255, 1);
+}
+
 
 .sidebar-left .sidebar-tabs {
   left: 0;
@@ -133,19 +150,31 @@
 
 .sidebar-tabs>li, .sidebar-tabs>ul>li {
   width: 100%;
+  padding:3px 4px 3px 0px;
   height: 40px;
   color: #333;
-  font-size: 12pt;
+  font-size: 12.5pt; /*size of icons*/
   overflow: hidden;
   transition: all 500ms;
 }
 
-.sidebar-tabs>li:hover, .sidebar-tabs>ul>li:hover {
+
+.sidebar-tabs-Bottom>button{
+  background: none;
+	color: inherit;
+	border: none;
+	/* padding: 1; */
+  width:100%;
+	font: inherit;
+	cursor: pointer;
+}
+
+.sidebar-tabs>li:hover, .sidebar-tabs>ul>li:hover,.sidebar-tabs-Bottom>button:hover {
   color: #e09f26;
   background-color: rgb(226, 226, 226);
 }
 
-.sidebar-tabs>li.active, .sidebar-tabs>ul>li.active {
+.sidebar-tabs>li.active, .sidebar-tabs>ul>li.active,.sidebar-tabs-Bottom>button.active {
   color: #e09f26d3;
   background-color: #373737;
 }
@@ -162,15 +191,16 @@
   cursor: default;
 }
 
-.sidebar-tabs>li>a, .sidebar-tabs>ul>li>a, .sidebar-tabs>ul>li>button {
+.sidebar-tabs>li>a, .sidebar-tabs>ul>li>a{
   display: block;
   width: 100%;
   height: 100%;
-  line-height: 40px;
+  line-height:57px;
   color: inherit;
   text-decoration: none;
   text-align: center;
 }
+
 
 .sidebar-tabs>ul+ul {
   bottom: 0;
@@ -237,21 +267,38 @@
 }
 
 .sidebar-pane.active#layers {
-  display: -webkit-box;
+  display:block;
+  overflow:visible; 
   background-color: rgba(255, 255, 255, 0.849);
 }
 
 .sidebar-pane.active#profile {
-  display: block;
-  margin-top: 40px;
+  display:block;
+  overflow:visible;   
+  margin-top: 46px;
   background-color: rgba(255, 255, 255, 0.849);
 }
 
-.sidebar-pane.active#messages {
-  display: block;
-  margin-top: 80px;
+.sidebar-pane.active#uploadShp{
+  display:block;
+  overflow:visible; 
+  margin-top: 92px;
   background-color: hsla(0, 0%, 100%, 0.849)
 }
+
+.sidebar-pane.active#history {
+  display:block;
+  overflow:visible; 
+  margin-top: 138px;
+  background-color: hsla(0, 0%, 100%, 0.849)
+}
+.sidebar-pane.active#wayPoint {
+  display:block;
+  overflow:visible; 
+  margin-top: 184px;
+  background-color: hsla(0, 0%, 100%, 0.849)
+}
+
 
 .sidebar-pane-Bottom {
   /* transform: rotate(-90deg); */
@@ -281,9 +328,9 @@
 
 .sidebar-header {
   margin: -10px -20px 0;
-  height: 40px;
+  height: 46px;
   padding: 0 20px;
-  line-height: 40px;
+  line-height: 46px;
   font-size: 14.4pt;
   color: #e09f26;
   background-color: #373737;
@@ -353,6 +400,7 @@
 }
 
 .sidebar-content {
+
   box-shadow: 5px 2px 5px rgba(0, 0, 0, 0.548);
   background-color: rgba(255, 255, 255, 0.849);
 }
@@ -361,6 +409,7 @@
   .sidebar .sidebar-content {
     box-shadow: 10px 2px 5px rgba(0, 0, 0, 0.548);
     border-radius: 10px;
+    
   }
   @media (min-width: 768px) and (max-width: 991px) {
     .sidebar-left~.sidebar-map .leaflet-left {

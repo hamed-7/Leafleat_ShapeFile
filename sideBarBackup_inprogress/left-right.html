@@ -6,9 +6,8 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="css/fontawesome.css" /> -->
+    <link rel="stylesheet" href="css/all.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
     <!-- [if lte IE 8]><link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.2/leaflet.ie.css" /><![endif] -->
 
@@ -16,39 +15,31 @@
     
     <style>
         #myDIV {
-            width: 90%;
-            padding: 50px 0;
-            text-align: center;
             background-color: lightblue;
-            margin-top: 20px;
         }
 
         #myDIV1 {
-            width: 90%;
-            padding: 50px 0;
-            text-align: center;
             background-color: lightgreen;
-            margin-top: 20px;
-        }
+            /* transition:ease-in 0.8s;  */
+                }
+                #myDIV2 {
+            background-color:lightsalmon;
+            /* transition:ease-in 0.8s;  */
+                }
 
-        #BtnDIV {
-            text-align: center;
-            margin-top: 10px;
-
-        }
-
-        #BtnDIV {
-            position: fixed;
-            bottom: 2%;
-            left: 45%;
-            /* z-index: 5; */
-            /* pointer-events: none; */
-        }
 
         #myDIV,
-        #myDIV1 {
+        #myDIV1,#myDIV2 {
+            /* transition:  ease-in, 0.8s transform ease;    */
+            margin-top: 50px;
+            width: 90%;
+            padding: 50px 0;
+            text-align: center;
+            border: dashed #AAA ;
+            border-radius: 5px;
             position: fixed;
-            bottom: 6%;
+            opacity: 0.9;
+            bottom: 8%;
             left: 5%;
             z-index: 55;
             /* pointer-events: none; */
@@ -98,8 +89,8 @@
         <div class="sidebar-tabs">
 
             <ul role="tablist">
-                <li><a href="#layers" role="tab"><i class="fa fa-bars"></i></a></li>
-                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
+                <li><a href="#layers" role="tab"><i class="fas fa-cloud-sun-rain fa-2x"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fas fa-exclamation-triangle fa-2x"></i></a></li>
                 <!-- <li ><a role="tab" id="messages"><i class="fa fa-envelope"></i></button></li> -->
             </ul>
         </div>
@@ -153,46 +144,21 @@
 
 
 
-
-    <!-- 
-
-<div id="sidebarBottom" class="sidebar sidebar-bottom collapsed">
-    Nav tabs
-    <div class="sidebar-tabs">
-        
-        <ul role="tablist">
-            <li><a class="fa fa-user" data-dropup="drop-up2" ></a></li>
-            <li ><a  class="fa fa-envelope " data-dropup="drop-up3" ></i></a></li>
-            
-           <li><a class="btn dropdown" data-dropup="drop-up"></a>
-           </li>
-       
-        </ul>
-
-        <ul role="tablist">
-            <li><a href="#settings" class="fa fa-gear" role="tab"></a></li>
-    
-           
-        </ul> 
-    </div>
-
-</div>
-  -->
-
-
     <div id="sidebarLeft" class="sidebar sidebar-left collapsed">
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
 
             <ul role="tablist">
-                <li><a href="#layers" role="tab"><i class="fa fa-bars"></i></a></li>
-                <li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>
-                <li><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+                <li><a href="#layers" role="tab"><i class="fas fa-layer-group fa-2x"></i></a></li>
+                <li><a href="#profile" role="tab"><i class="fas fa-draw-polygon fa-2x"></i></a></li>
+                <li><a href="#uploadShp" role="tab"><i class="fas fa-file-download fa-2x"></i></a></li>
+                <li><a href="#history" role="tab"><i class="fas fa-history fa-2x"></i></a></li>
+                <li><a href="#wayPoint" role="tab"><i class="fas fa-map-pin fa-2x"></i></a></li>
+
+
             </ul>
 
-            <ul role="tablist">
-                <li><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
-            </ul>
+           
         </div>
 
         <!-- Tab panes -->
@@ -206,18 +172,6 @@
                     </h1>
 
                     <form action="#">
-                        <p><input type="checkbox" id="EEZTun" /><label for="EEZTun"><span class="ui"></span>EEZ
-                                Tunisie</label></p>
-                        <p><input type="checkbox" id="EEZ12Tun" /><label for="EEZ12Tun"><span class="ui"></span>EEZ 12nm
-                                Tunisie</label></p>
-                        <p><input type="checkbox" id="EEZ24Tun" /><label for="EEZ24Tun"><span class="ui"></span>EEZ 24nm
-                                Tunisie</label></p>
-                        <p><input type="checkbox" id="allEEZ24" /><label for="allEEZ24"><span class="ui"></span>All EEZ
-                                24nm</label></p>
-                        <p><input type="checkbox" id="EEZInternTun" /><label for="EEZInternTun"><span
-                                    class="ui"></span>Eaux intérieures Tunisie</label></p>
-                        <p><input type="checkbox" id="MenzelAbdrahmen" checked /><label for="MenzelAbdrahmen"><span
-                                    class="ui"></span>Ports</label></p>
                         <p><input type="checkbox" id="ZoneInterdite" checked /><label for="ZoneInterdite"><span
                                     class="ui"></span>Zones Interdites</label></p>
                         <p><input type="checkbox" id="ZonePeche" checked /><label for="ZonePeche"><span
@@ -236,37 +190,51 @@
                 </div>
             </div>
 
-            <div class="sidebar-pane" id="messages">
+            <div class="sidebar-pane" id="uploadShp">
                 <div class="sidebar-close">
-                    <h1 class=" sidebar-header">Messages <i class="fa fa-caret-left"></i></h1>
+                    <h1 class=" sidebar-header">Upload Your shape file <i class="fa fa-caret-left"></i></h1>
                 </div>
                 <p>123 456</p>
             </div>
 
-            <div class="sidebar-pane" id="settings">
-                <h1 class="sidebar-header">Settings</h1>
+            <div class="sidebar-pane" id="history">
+                <div class="sidebar-close">
+                    <h1 class=" sidebar-header">history <i class="fa fa-caret-left"></i></h1>
+                </div>
+                <p>123 456</p>
             </div>
+            <div class="sidebar-pane" id="wayPoint">
+                <div class="sidebar-close">
+                    <h1 class=" sidebar-header">WayPoints<i class="fa fa-caret-left"></i></h1>
+                </div>
+                <p>adresse</p>
+            </div>
+
+       
         </div>
     </div>
 
 
+
+  
+
     <div class="container-fluid">
         <div class="mapbox">
-
-            <div class="overlay">
-
+            <div class="overlay ">  
                 <div id="myDIV">
                     Astro
                 </div>
-
-                <div id="myDIV1">
+                <div  id="myDIV1">
+                    <h1 class="title"><a href="#" class="cardTitle">Boxing icon has the will for a couple more fights</a></h1>
+          <p class="text">The highly anticipated world championship fight will take place at 10am and is the second major boxing blockbuster in the nation after 43 years.</p>
+                </div>   
+                <div  id="myDIV2">
                     Moon
-                </div>
-
-
-                <div id="BtnDIV">
-                    <button onclick="myFunction()">Astro</button>
-                    <button onclick="myFunction1()">Moon</button>
+                </div>    
+                <div class="tablist sidebar-tabs-Bottom" id="BtnDIV">
+                    <button  class="tab "  onclick="myFunction()"> <i class="fas fa-mosque fa-2x"></i></button>
+                    <button class="tab" onclick="myFunction1()"><i class="fas fa-kaaba fa-2x"></i></button>
+                    <button class="tab" onclick="myFunction2()"><i class="fas fa-moon fa-2x"></i><i class="fas fa-sun fa-2x"></i></button>
                 </div>
 
             </div>
@@ -279,22 +247,28 @@
 
         </div>
     </div>
-
+<!-- script to control bottom bar -->
     <script>
         let x = document.getElementById("myDIV");
         let y = document.getElementById("myDIV1");
+        let z=  document.getElementById("myDIV2");
         x.style.display = "none";
+        z.style.display = "none";
         y.style.display = "none";
-
+        let Butn=document.querySelectorAll(".tab")
+        console.log(Butn)
         function myFunction() {
             //var x = document.getElementById("myDIV");
             //var y = document.getElementById("myDIV1");
 
             if (x.style.display === "none") {
+                Butn[0].classList.toggle('active')
                 x.style.display = "block";
                 y.style.display = "none";
+                z.style.display = "none";
 
             } else {
+                Butn[0].classList.toggle('active')
                 x.style.display = "none";
                 //y.style.display = "block";
             }
@@ -305,26 +279,43 @@
             //var y = document.getElementById("myDIV");
 
             if (y.style.display === "none") {
+                Butn[1].classList.toggle('active')
                 y.style.display = "block";
                 x.style.display = "none";
-
+                z.style.display = "none";
             } else {
+                Butn[1].classList.toggle('active')
+
                 y.style.display = "none";
                 //y.style.display = "block";
             }
         }
+
+        function myFunction2() {
+            //var x = document.getElementById("myDIV1");
+            //var y = document.getElementById("myDIV");
+
+            if (z.style.display === "none") {
+                Butn[2].classList.toggle('active')
+                z.style.display = "block";
+                x.style.display = "none";
+                y.style.display = "none";
+
+            } else {
+                Butn[2].classList.toggle('active')
+
+                z.style.display = "none";
+                //y.style.display = "block";
+            }
+        }
     </script>
-
-
-
-
 
     <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
     <script src="leaflet-sidebar.js"></script>
     <!-- <script src="DropDirection.js">
     </script> -->
 
-
+<!-- script map -->
     <script>
         var map = L.map('map');
         map.setView([36, 1], 11);
@@ -339,7 +330,6 @@
     </script>
 
 </body>
-
 </html>
 <!-- <script>
     var map = L.map('map');
