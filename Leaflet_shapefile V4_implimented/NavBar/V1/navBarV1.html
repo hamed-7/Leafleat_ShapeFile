@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Dashboard or system header and menu</title>
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.8.1/css/all.css'><link rel="stylesheet" href="./styleNav.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- ==========================================================================
+
+HEADER
+
+==========================================================================-->
+<header id="main-header" class="fixed-top d-flex flex-row opened-navbar-header">
+  <!--Brand elements-->
+  <div class="brand-wrapper  d-flex align-items-center">
+    <a href="https://imgbb.com/"><img src="vmd.png" alt="logo-ins-compacto" class="img-fluid"></a>
+    <span class="name-brand text-uppercase">Vms Solution</span>
+  </div>
+  
+<!--cho-->
+
+    <div class =" header-nav-wrapper d-flex align-items-center divMenu">
+      <main>
+        <div class="table">
+          <div class="table-cell">
+            <div class="menu">
+              <div class="menu-item"><i class="fa fa-home"></i><span>Accueil</span></div>
+              <div class="menu-item"><i class="fa fa-globe"></i><span>Social</span></div>
+              <div class="menu-item"><i class="fa fa-user"></i><span>Profil</span></div>
+              <div class="menu-item"><i class="fa fa-envelope"></i><span>Messagerie</span></div>
+              <div class="menu-item"><i class="fa fa-power-off"></i><span>Quitter</span></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </div>
+  <!--User-->
+  <div class="user-wrapper d-flex align-items-center">
+
+    <button type="button" class="dropdown-toggle d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img src="https://i.ibb.co/vVQHKr9/borrar.jpg" style="border:rgb(54, 54, 54) 3px dashed;"alt="borrar"class="rounded-circle">
+    <span class="d-none d-lg-block d-xl-block">Andrés Felipe Martínez Castro</span>
+  </button>
+    <div class="dropdown-menu dropdown-menu-right dropdown">
+      <a class="dropdown-item" type="button">Perfil</a>
+      <a class="dropdown-item" type="button">Notificaciones <span class="badge badge-success ml-2">5</span> </a>
+      <a class="dropdown-item" type="button">Mesa de ayuda</a>
+      <a class="dropdown-item" type="button">Salir</a>
+    </div>
+
+  </div>
+</header>
+  <!-- ==========================================================================
+
+MAIN CONTENT
+
+==========================================================================-->
+<div id="main-content" class="d-flex">
+  <!-----------------------------------
+MENU
+----------------------------------->
+
+
+  <!-----------------------------------
+CONTENT
+----------------------------------->
+
+  <div id="main-panel" class="opened-navbar">
+
+  </div>
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js'></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script><script  src="./scriptNav.js"></script>
+<style>
+  /* body{
+margin: 0;
+overflow: hidden;
+} */
+
+/* .table{
+
+display: table;
+width: 100vw;
+height: 100vh;
+position: fixed;
+top:0;
+left: 0;
+
+}  */
+.rounded-Circle{
+  all : inherit;
+  border-radius: 5px;
+  
+} 
+.table{
+  display: table;
+transform: rotate(90deg);
+
+text-align: center;
+
+}
+
+
+.menu{
+  width: 30vw;
+height: 100vh;
+
+text-align: center;
+width: 30%;
+margin: auto;
+display: flex;
+align-content: flex-start;
+flex-flow: row wrap;
+justify-content: space-around;
+border-radius: 10px;
+/* -moz-box-shadow: 0px 0px 5px 0px #c0c0c0;
+-webkit-box-shadow: 0px 0px 5px 0px #c0c0c0;
+-o-box-shadow: 0px 0px 5px 0px #c0c0c0;
+box-shadow: 0px 0px 5px 0px #c0c0c0; */
+filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=NaN, Strength=5);
+}
+
+@media   (max-width: 720px){
+.menu{
+width: 20%;
+}
+}
+.divMenu{
+  padding-top:10px;
+}
+@media  (min-width: 980px){
+  .divMenu{
+  margin-left:8 rem;
+}
+}
+@media (max-width: 980px) {
+  .divMenu{
+  margin-left: 3rem;
+}
+}
+@media (max-width: 720px) {
+  .divMenu{
+  margin-left: 0;
+}
+}
+
+
+.menu-item{
+  transform: rotate(-90deg);
+
+font-size: 17px;
+flex: 1;
+padding: 28px;
+transition: all .2s;
+cursor: pointer;
+color: #636363;
+/* background: linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+          linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+          linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%); */
+background-color: white;
+border-radius: 10px;
+position: relative;
+}
+
+.menu-item > span{
+display: block;
+position: absolute;
+text-transform: uppercase;
+font-size: 10px;
+font-weight: 200;
+color: white;
+left: 5px;
+right: 5px;
+border-radius: 5px;
+background-color: #226eab;
+padding: 5px;
+opacity: 0;
+transition: all .2s .1s;
+transform: translateY(70px);
+z-index: -1;
+}
+
+.menu-item:hover{
+  
+-moz-box-shadow: 0px 0px 5px 0px #c0c0c0;
+-webkit-box-shadow: 0px 0px 5px 0px #c0c0c0;
+-o-box-shadow: 0px 0px 5px 0px #c0c0c0;
+box-shadow: 0px 0px 5px 0px #c0c0c0;
+filter:progid:DXImageTransform.Microsoft.Shadow(color=#c0c0c0, Direction=NaN, Strength=5);
+flex: 2;
+color: #226eab;
+/* transform: scale(1.1); */
+z-index: 3;
+}
+
+.menu-item:hover > span{
+transform: translateY(35px);
+opacity: 1;
+}
+</style>
+
+</body>
+</html>

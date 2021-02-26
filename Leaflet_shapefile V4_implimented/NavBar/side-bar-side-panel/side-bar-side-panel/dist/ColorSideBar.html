@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Side Bar + Side Panel</title>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" /><link rel="stylesheet" href="./styleSideBar.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="side-panel" id="side-panel">
+  <div id="sidepanel-heading" class="heading">
+    <span id="content-heading">USER PROFILE</span>
+  </div>
+  <iframe id="content-frame" style="height: 90%; border:none; display: block; width: 400px; position: absolute;" src="https://apple.com"></iframe>
+  <div data-position="left" class="side-bar">
+    <div class="item"><i class="fa fa-user"></i></div>
+    <div class="item"><i class="fa fa-users"></i></div>
+    <div class="item"><i class="fa fa-comments-o"></i></div>
+    <div class="item"><i class="fa fa-folder-o"></i></div>
+    <div class="item"><i class="fa fa-file-code-o"></i></div>
+
+    <div class="item bottom" id="show_hide"><i class="fa fa-angle-double-right"></i></div>
+  </div>
+</div>
+<!-- partial -->
+  <script  src="./scriptSideBar.js"></script>
+
+</body>
+</html>

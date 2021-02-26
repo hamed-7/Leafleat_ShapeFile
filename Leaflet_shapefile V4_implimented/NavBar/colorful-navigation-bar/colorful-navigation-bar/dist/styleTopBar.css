@@ -1,0 +1,72 @@
+h1 {
+  text-align: center;
+  border: 0;
+}
+
+p {
+  text-align: center;
+  font-weight: 400;
+}
+
+.tabs {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+}
+.tabs li {
+  float: left;
+  width: 20%;
+}
+.tabs a {
+  position: relative;
+  display: inline-block;
+  background: #5A4A6B;
+  width: 100%;
+  margin: 0;
+  color: #9C94B5;
+  padding: 16px 0;
+  text-align: center;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.tabs a p, .tabs a i {
+  position: relative;
+  margin: 0;
+  background: transparent;
+  padding: 0;
+  z-index: 100;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+.tabs a.active {
+  color: #fff;
+}
+.tabs a:hover {
+  color: #fff;
+}
+.tabs a:active {
+  background: #41354d;
+}
+
+#tabs-line {
+  position: absolute;
+  bottom: 0;
+  height: 3px;
+  transition: background 0.3s;
+  z-index: 99;
+}
+#tabs-line.one {
+  background: #E75A5A;
+}
+#tabs-line.two {
+  background: #FFBD73;
+}
+#tabs-line.three {
+  background: #73ADCE;
+}
+#tabs-line.four {
+  background: #DC6394;
+}
+#tabs-line.five {
+  background: #73CEB5;
+}

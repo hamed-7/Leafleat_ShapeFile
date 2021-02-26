@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css'>
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.8.1/css/all.css'><link rel="stylesheet" href="./styleNav.css">
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js'></script>
+  <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script><script  src="./scriptNav.js"></script>
+  
+
+  <meta charset="UTF-8">
+  <title>CodePen - Colorful Navigation Bar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel='stylesheet' href='https://cdn.rawgit.com/mblode/marx/master/css/marx.min.css'><link rel="stylesheet" href="./styleTopBar.css">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" />
+<link rel="stylesheet" href="./styleSideBar.css">
+<script  src="./scriptSideBar.js"></script>
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+<body>
+
+  <header id="main-header" class="fixed-top d-flex flex-row opened-navbar-header">
+    <!--Brand elements-->
+    <div class="brand-wrapper  d-flex align-items-center">
+      <a href="https://imgbb.com/"><img src="vmd.png" alt="logo-ins-compacto" class="img-fluid"></a>
+      <span class="name-brand text-uppercase">Vms Solution</span>
+    </div>
+    
+  <!--cho-->
+  
+      <div class ="  d-flex align-items-center divMenu">
+       
+        <main>  
+          <div class="nav">
+      
+           <ul class="tabs">
+             <li>
+               <a href="#" class="active">
+                 <p><i class="fa fa-home fa-2x"></i></p>
+               </a>
+       
+             <li>
+               <a href="#">
+                 <p><i class="fa fa-search fa-2x"></i></p>
+               </a>
+       
+             <li>
+               <a href="#">
+                 <p><i class="fa fa-camera fa-2x"></i></p>
+               </a>
+       
+             <li>
+               <a href="#">
+                 <p><i class="fa fa-heart fa-2x"></i></p>
+               </a>
+             <li>
+               <a href="#">
+                 <p><i class="fa fa-user fa-2x"></i></p>
+               </a>
+             <li id="tabs-line" class="one"></li>
+           </ul>
+         </div>
+       </main>
+       
+
+      </div>
+  
+    </div>
+    <!--User-->
+    <div class="user-wrapper d-flex align-items-center">
+  
+      <button type="button" class="dropdown-toggle d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="https://i.ibb.co/vVQHKr9/borrar.jpg" style="border:rgb(54, 54, 54) 3px dashed;"alt="borrar"class="rounded-circle">
+      <span class="d-none d-lg-block d-xl-block">Andrés Felipe Martínez Castro</span>
+    </button>
+      <div class="dropdown-menu dropdown-menu-right dropdown">
+        <a class="dropdown-item" type="button">Perfil</a>
+        <a class="dropdown-item" type="button">Notificaciones <span class="badge badge-success ml-2">5</span> </a>
+        <a class="dropdown-item" type="button">Mesa de ayuda</a>
+        <a class="dropdown-item" type="button">Salir</a>
+      </div>
+  
+    </div>
+  </header>
+
+  <div class="side-panel" id="side-panel">
+    <div id="sidepanel-heading" class="heading">
+      <span id="content-heading">USER PROFILE</span>
+    </div>
+    <div data-position="left" class="side-bar">
+      <div id="firstSide"class="item"><i class="fa fa-user"></i></div>
+      <div id="secondSide"class="item"><i class="fa fa-users"></i></div>
+      <div id="thirdSide"class="item"><i class="fa fa-comments-o"></i></div>
+      <div id="fourthSide"class="item"><i class="fa fa-folder-o"></i></div>
+      <div id="fifthSide" class="item"><i class="fa fa-file-code-o"></i></div>
+  
+      <div class="item bottom" id="show_hide"><i class="fa fa-angle-double-right"></i></div>
+    </div>
+  </div>
+
+
+  <script>
+    
+    document.getElementById('firstSide').onclick =  ShowHideSideDiv=()=>{
+      let ele= document.querySelector(".dialog");
+        if (ele.className.indexOf("open") !== -1) {
+          ele.classList.remove('open');
+            ele.classList.add('close'); 
+            console.log(ele);
+
+        }
+        else{
+        ele.classList.add("open"); 
+        ele.classList.remove('close');
+      }
+        
+    }
+
+
+  </script>
+<!-- right side bar -->
+<div class="" id="side-panel">
+
+  <div data-position="right" class="side-bar">
+    <div id="firstSide"class="item"><i class="fa fa-user"></i></div>
+    <div id="secondSide"class="item"><i class="fa fa-users"></i></div>
+    <div id="thirdSide"class="item"><i class="fa fa-comments-o"></i></div>
+    <div id="fourthSide"class="item"><i class="fa fa-folder-o"></i></div>
+    <div id="fifthSide" class="item"><i class="fa fa-file-code-o"></i></div>
+
+    <div class="item bottom" id="show_hide"><i class="fa fa-angle-double-right"></i></div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- scroll div -->
+
+<div class="dialog close">
+  <div class="section">
+    <h2>Find</h2>
+  </div>
+  <div class="section grow scrollable">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+
+  </div>
+  <div class="section ok">
+    <h3>OK</h3>
+  </div>
+</div>
+
+
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script><script  src="./scriptTopBar.js"></script>
+
+</body>
+</html>

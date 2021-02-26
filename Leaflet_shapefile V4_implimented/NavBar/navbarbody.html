@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="css/all.css" rel="stylesheet" >
+    
+    <title>Document</title>
+</head>
+<style>
+
+
+@import url("https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i");
+/* ------------------------------
+GENERAL
+---------------------------------*/
+body {
+  margin: 0;
+  padding: 0;
+  color: #6c7a87;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  letter-spacing: -1px;
+  color: #4d4d4d;
+}
+p {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  /*! line-height: 1.8; */
+  font-size: 17px;
+}
+a,
+button {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+strong {
+  font-weight: 600;
+}
+.btn {
+  white-space: normal;
+  line-height: 1.2;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+ /* ==========================================================================
+
+HEADER
+
+==========================================================================*/
+#main-header {
+  background: white;
+  height: 75px;
+}
+/*Brand elements*/
+.brand-wrapper {
+  width: 250px;
+  height: 75px;
+  padding-left: 30px;
+  transition: all 0.25s ease;
+}
+.brand-wrapper img {
+  max-width: 70px;
+}
+.brand-wrapper span {
+  font-size: 14px;
+  font-weight: 500;
+  margin-left: 10px;
+}
+/*Main menu trigger, help buttons and Search bar*/
+.header-nav-wrapper {
+  width: calc(100% - 500px);
+  padding-right: 10px;
+}
+.header-nav-wrapper ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.header-nav-wrapper ul li {
+  border-left: solid 1px #eaeaea;
+  height: 75px;
+  line-height: 75px;
+  padding: 0px 20px;
+  width: 70px;
+  text-align: center;
+}
+.header-nav-wrapper ul li p {
+  height: auto;
+  line-height: 150%;
+  font-size: 15px;
+}
+.header-nav-wrapper ul li a,
+.header-nav-wrapper ul li button {
+  background: transparent;
+  border: 0;
+  font-size: 20px;
+  color: black;
+  position: relative;
+}
+
+.header-nav-wrapper .dropdown-menu {
+  width: 350px;
+}
+.header-nav-wrapper .dropdown-menu img {
+  height: 50px;
+}
+
+.no-caret:after {
+  display: none;
+}
+a em {
+  position: absolute;
+  display: block;
+  width: 15px;
+  height: 15px;
+  opacity: 0.65;
+  right: -5px;
+  top: -5px;
+  border-radius: 50%;
+}
+.em-green {
+  background-color: #39fe00;
+}
+.em-red {
+  background-color: red;
+}
+/*Search bar*/
+#header-search-bar {
+  box-sizing: border-box;
+  padding: 0 15px 0 0;
+  margin-left: calc(100% - 420px);
+  width: 200px;
+  border-right: rgba(0, 0, 0, 0.1) solid 1px;
+  height: 75px;
+}
+#header-search-bar button {
+  width: 15%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+#header-search-bar button:hover {
+  color: #67a5e6;
+}
+#header-search-bar input[type="text"] {
+  width: 80%;
+  height: 30px;
+  border: 0;
+  color: #8798ad;
+  font-weight: 300;
+  font-size: 15px;
+}
+/*User*/
+.user-wrapper {
+  width: 250px;
+  padding-right: 30px;
+}
+.user-wrapper img {
+  height: 50px;
+  margin-right: 10px;
+}
+.user-wrapper span {
+  line-height: 140%;
+  font-size: 15px;
+}
+.user-wrapper button {
+  display: block;
+  background: transparent;
+  border: 0;
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 0;
+  text-align: left;
+  height: 75px;
+}
+.dropdown-menu {
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.13);
+  border: 1px solid rgba(182, 182, 182, 0.3);
+  font-weight: 300;
+  border-radius: 3px;
+}
+.dropdown-menu a {
+  font-size: 15px !important;
+  font-weight: 300;
+  line-height: 150%;
+  white-space: normal;
+}
+.dropdown-menu .badge {
+  font-size: 12px;
+}
+
+#main-content {
+  background: #f3f6fd;
+  min-height: 100%;
+  margin-top: 75px;
+  padding: 0;
+}
+
+#main-panel {
+  transition: all 0.25s ease;
+  min-height: calc(100vh - 75px);
+}
+
+/* ------------------------------
+MENU
+---------------------------------*/
+#navbar {
+  background: white;
+  min-height: calc(100vh - 75px);
+  box-shadow: 0 20px 40px 0 rgba(127, 143, 164, 0.36);
+  overflow-y: scroll;
+  transition: all 0.25s ease;
+  position:relative;
+}
+#navbar ul{
+  list-style-type:none;
+  margin:0;
+  padding:0 20px;
+  margin-top:20px;
+}
+#navbar ul li{
+
+  margin-bottom:20px;
+font-size:15px;
+  
+}
+#navbar ul li a{
+color:#8798ad;
+font-size:14px;
+}
+#navbar ul li i{
+ font-size:17px;
+  color:black;
+  margin-right:8px;
+}
+/*toggle classes when menu opened or closed*/
+.hide-navbar {
+  width:0;
+  opacity:0;
+}
+/*.hide-navbar {
+  width: 90px !important;
+  overflow-x:hidden;
+}
+
+.hide-navbar ul li a span {
+  display: block;
+  margin:0 auto;
+
+}
+.hide-navbar ul li i{
+  font-size:17px;
+}
+.hide-navbar ul li a{
+  font-size:13px;
+}*/
+.show-navbar {
+  width: 250px;
+  opacity:1;
+}
+
+.hidden-navbar-content {
+  width: 100vw;
+}
+.opened-navbar-content {
+  width: calc(100vw - 250px);
+}
+
+.hidden-navbar-header {
+}
+.hidden-navbar-header .brand-wrapper {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 90px;
+  display: block;
+}
+
+.hidden-navbar-header .brand-wrapper span {
+  display: none;
+}
+
+.hidden-navbar-header .header-nav-wrapper {
+  width: calc(100% - 200px);
+}
+
+.opened-navbar-header {
+}
+
+
+@media (max-width: 980px) {
+.brand-wrapper {
+   padding-left: 10px;
+  padding-right: 10px;
+  width: 90px;
+}
+.brand-wrapper span {
+  display: none;
+}
+  
+  /*Main menu trigger, help buttons and Search bar*/
+.header-nav-wrapper {
+  width: calc(100vw + 1200px);
+  padding-right: 10px;
+}
+.user-wrapper .dropdown-toggle span {
+    display: none;
+  }
+.hide-navbar {
+  width: 0px !important;
+}
+.hide-navbar ul li a span {
+  display: block;
+}
+.hidden-navbar-header .header-nav-wrapper {
+  width: calc(100% + 1200px);
+}
+}
+
+@media (max-width: 580px) {
+  .headernav-wrapper {
+  width: 100px;
+  padding-right: 10px;
+} 
+#header-search-bar {
+    margin-left: 0;
+    width: 140px;
+}
+  
+.hidden-navbar-header .brand-wrapper, .opened-navbar-header .brand-wrapper {
+  width: 90px;
+}
+}
+
+</style>
+<body>
+<!-- ==========================================================================
+
+HEADER
+
+==========================================================================-->
+<header id="main-header" class="fixed-top d-flex flex-row opened-navbar-header">
+    <!--Brand elements-->
+    <div class="brand-wrapper  d-flex align-items-center">
+      <a href="https://imgbb.com/"><img src="https://i.ibb.co/sVhcFnH/logo-ins-compacto.png" alt="logo-ins-compacto" class="img-fluid"></a>
+      <span class="name-brand text-uppercase">Aula virtual 4.0</span>
+    </div>
+    <!--Main menu trigger, help buttons and Search bar-->
+    <div class="header-nav-wrapper d-flex d-flex align-items-center">
+  
+      <ul class="d-flex align-items-center show">
+        <li><button id="navbar-trigger"><i class="fas fa-bars"></i></button></li>
+  
+        <li class="dropdown d-none d-md-block d-lg-block d-xl-block" class=" dropdown-toggle no-caret " aria-expanded="true" data-toggle="dropdown"><a href=""><i class="fas fa-bell"></i><em class="em-green"></em></a>
+  
+          <div class="dropdown-menu">
+  
+            <p class="d-flex align-items-center justify-content-center p-3 border-bottom mb-0 text-center"><strong>Tiene 5 nuevas notificaciones</strong> <a href="#" class="ml-4"> <span class="badge badge-primary  badge-pill p-2">Ver todas</span></a></p>
+  
+            <a class="dropdown-item border-bottom d-flex align-items-center pt-3 pb-3" href="#">
+          
+          
+              <img src="https://i.ibb.co/vVQHKr9/borrar.jpg" alt="borrar" class="rounded-circle mr-3 d-block"/>
+          
+                <p class="mb-0"> <span class="d-block"><strong>Marina Cáceres</strong></span>
+           Fecha ajustada de evaluación</p>
+          
+                  </a>
+            <a class="dropdown-item d-flex justify-items-center pt-3 pb-3 border-bottom" href="#">
+          
+          
+              <img src="https://i.ibb.co/vVQHKr9/borrar.jpg" alt="borrar" class="rounded-circle mr-3 d-block"/>
+          
+                <p class="mb-0"> <span class="d-block"><strong>Sergio Arboleda</strong></span>
+           Lorem ipsum dolor sit amet cons</p>
+   </a>
+  
+            <a class="dropdown-item d-flex justify-items-center pt-3 pb-3" href="#">
+          
+          
+              <img src="https://i.ibb.co/vVQHKr9/borrar.jpg" alt="borrar" class="rounded-circle mr-3 d-block"/>
+          
+                   <p class="mb-0"> <span class="d-block"><strong>Mariana Sánchez</strong> <span class="badge badge-success ml-2"> Tutora</span></span>
+           Lorem ipsum dolor</p>
+          
+                  </a>
+          </div>
+  
+        </li>
+  
+        <li class=" d-none d-md-block d-lg-block d-xl-block"><a href="#"><i class="fas fa-life-ring"></i></a>
+  
+        </li>
+  
+      </ul>
+  
+      <!--Search bar-->
+  
+      <div id="header-search-bar" class="d-flex align-items-center">
+        <form>
+          <input type="text" placeholder="Buscar..." name="search">
+          <button type="submit" class=""><i class="fas fa-search"></i></i></button>
+        </form>
+      </div>
+  
+    </div>
+    <!--User-->
+    <div class="user-wrapper d-flex align-items-center">
+  
+      <button type="button" class="dropdown-toggle d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="https://i.ibb.co/vVQHKr9/borrar.jpg" alt="borrar" class="rounded-circle">
+      <span class="d-none d-lg-block d-xl-block">Andrés Felipe Martínez Castro</span>
+    </button>
+      <div class="dropdown-menu dropdown-menu-right dropdown">
+        <a class="dropdown-item" type="button">Perfil</a>
+        <a class="dropdown-item" type="button">Notificaciones <span class="badge badge-success ml-2">5</span> </a>
+        <a class="dropdown-item" type="button">Mesa de ayuda</a>
+        <a class="dropdown-item" type="button">Salir</a>
+      </div>
+  
+    </div>
+  </header>
+    <!-- ==========================================================================
+  
+  MAIN CONTENT
+  
+  ==========================================================================-->
+  <div id="main-content" class="d-flex">
+    <!-----------------------------------
+  MENU
+  ----------------------------------->
+    <nav id="navbar" class="show-navbar">
+  
+      <ul>
+        
+       <li> <a href="javascript:void(0);">  <i class="fas fa-puzzle-piece"></i> <span class="navbar-link-info"> <span class="link-name"> Contenidos del curso</span> </span> </a></li>
+  
+        <li> <a href="#"><i class="fas fa-puzzle-piece"></i> <span>Calificaciones</span></a></li>
+        <li><a href="#"><i class="fas fa-puzzle-piece"></i> <span>Calendario</span></a></li>
+  
+      </ul>
+    </nav>
+  
+    <!-----------------------------------
+  CONTENT
+  ----------------------------------->
+  
+    <div id="main-panel" class="opened-navbar">
+  
+      Content
+  
+      <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+    </div>
+     <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
+    
+    ggg
+    </div>
+  </div>    
+</body>
+
+<script>
+(function () {
+	$('#navbar-trigger').on('click', function() {
+		$('#navbar-trigger').toggleClass('animate');
+    //Close and open menu
+    var navbar = $('#navbar');
+    navbar.toggleClass('hide-navbar show-navbar');
+    //Expand or shrink Main content when opened or closed menu
+     var mainpanel = $('#main-panel');
+    mainpanel.toggleClass('hidden-navbar opened-navbar');
+    //Make the logo smaller or bigger when opened or closed menu
+      var mainheader = $('#main-header');
+    mainheader.toggleClass('hidden-navbar-header opened-navbar-header');
+	})
+})();
+
+
+</script>
+</html>
+
+

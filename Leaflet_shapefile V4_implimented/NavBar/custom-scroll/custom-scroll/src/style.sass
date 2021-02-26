@@ -1,0 +1,74 @@
+$color-primary: #607889
+$color-background: #CDF1FF
+
+body
+  padding-top: 40px
+  font-family: Arial, sans-serif
+  line-height: 1.6
+  background-color: $color-background
+  
+.title
+  text-align: center
+  margin-bottom: 20px
+  color: $color-primary
+  font-family: monospace
+  font-weight: normal
+  font-size: 1em
+  
+h2, h3
+  margin: 0
+  font-size: 1.2em
+  color: $color-primary
+  
+h3
+  font-size: 1em
+  
+.line
+  background-color: #ededed
+  height: 10px
+  margin: 15px 0px
+  border-radius: 3px
+  
+.dialog
+  background-color: #ffffff
+  height: 500px
+  width: 300px
+  margin: auto auto
+  display: flex
+  flex-direction: column
+  box-shadow: 0 8px 15px rgba(0,0,0,.24)
+  
+.section
+  box-sizing: border-box
+  padding: 10px
+  margin: 20px 10px
+  margin-top: 0px
+  flex-grow: 0
+  
+  &:first-child
+    margin-top: 10px
+  
+  &.ok
+    text-align: center
+    padding-bottom: 30px
+  
+  &.grow
+    flex-grow: 1
+    overflow-y: hidden
+    
+  &.scrollable
+    overflow-y: auto
+
+    &::-webkit-scrollbar
+      width: 6px
+    
+    &::-webkit-scrollbar-thumb
+      background: lighten($color-primary, 20%)
+      border-radius: 2px
+      cursor: pointer
+    
+    &::-webkit-scrollbar-track
+      width: 2px
+      background: #f2f2f2
+      border-radius: 2px
+      border: white 2px solid
